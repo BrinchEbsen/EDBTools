@@ -13,7 +13,7 @@ namespace EDBTools.Geo.Headers
     {
         public override long HEADER_SIZE
         {
-            get { return 0x20; }
+            get { return base.HEADER_SIZE + 0x10; }
         }
 
         public long MotionDataInfo { get; private set; }

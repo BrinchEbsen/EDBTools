@@ -8,6 +8,9 @@ using System.Threading.Tasks;
 
 namespace EDBTools.Geo.Headers
 {
+    /// <summary>
+    /// Common structure for a data array header with a section number and an address to its referenced data.
+    /// </summary>
     public abstract class GeoCommonArrayElement : GeoCommonHeader
     {
         public override long HEADER_SIZE
@@ -18,8 +21,17 @@ namespace EDBTools.Geo.Headers
             }
         }
 
+        /// <summary>
+        /// Index of the section the data is present in.
+        /// </summary>
         public short Section { get; private set; }
+        /// <summary>
+        /// Debug data.
+        /// </summary>
         public short Debug { get; private set; }
+        /// <summary>
+        /// Address of the referenced data element.
+        /// </summary>
         public long Address { get; private set; }
 
         protected GeoCommonArrayElement(BinaryReader reader, bool bigEndian) : base(reader)

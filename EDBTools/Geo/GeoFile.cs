@@ -275,7 +275,7 @@ namespace EDBTools.Geo
         /// <param name="list">List to populate with HashCodes.</param>
         /// <param name="array">Data array descriptor.</param>
         /// <returns>The input list, now with added HashCodes (if any).</returns>
-        public List<uint> PopulateHeaderHashCodeList(List<uint> list, GeoCommonArray array, BinaryReader reader, bool bigEndian)
+        private List<uint> PopulateHeaderHashCodeList(List<uint> list, GeoCommonArray array, BinaryReader reader, bool bigEndian)
         {
             if (array.HashSize >= 0) return list;
 

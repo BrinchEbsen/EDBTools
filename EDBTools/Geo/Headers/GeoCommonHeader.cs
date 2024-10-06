@@ -13,7 +13,7 @@ namespace EDBTools.Geo.Headers
     public abstract class GeoCommonHeader
     {
         /// <summary>
-        /// Size of the data header in bytes.
+        /// Size of this data header in bytes.
         /// </summary>
         public virtual long HEADER_SIZE { get; }
 
