@@ -47,10 +47,12 @@
     <Compile Include="Geo\GeoCommonArray.cs" />
     <Compile Include="Geo\GeoFile.cs" />
     <Compile Include="Geo\GeoHeader.cs" />
-    <Compile Include="Geo\Headers\IGeoCommonHeader.cs" />
+    <Compile Include="Geo\Headers\GeoCommonHeader.cs" />
+    <Compile Include="Geo\Headers\GeoEntityHeader.cs" />
     <Compile Include="Geo\Headers\GeoSectionHeader.cs" />
-    <Compile Include="HashCodes\HashCodes.cs" />
-    <Compile Include="HashCodes\Sound.cs" />
+    <Compile Include="Geo\Headers\RefPointerHeader.cs" />
+    <Compile Include="HashCodes\Spyro\HashCodes.cs" />
+    <Compile Include="HashCodes\Spyro\Sound.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

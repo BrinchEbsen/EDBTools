@@ -1,4 +1,6 @@
 ﻿using Common;
+using EDBTools.Geo.Headers;
+using Extensions;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -32,6 +34,16 @@ namespace EDBTools.Geo
             240 //Spyro: A Hero's Tail retail GeoFile version.
         };
 
+        /// <summary>
+        /// The sections of a GeoFile are aligned to a byte boundary which varies in size depending on the platform.
+        /// </summary>
+        public static readonly Dictionary<GamePlatform, int> SECTION_ALIGNMENT = new Dictionary<GamePlatform, int>
+        {
+            { GamePlatform.Xbox,         0x800 },
+            { GamePlatform.PlayStation2, 0x800 },
+            { GamePlatform.GameCube,     0x20  }
+        };
+
 
 
         /* VARIABLES */
@@ -49,7 +61,34 @@ namespace EDBTools.Geo
         /// <summary>
         /// The header section containing the base information for this GeoFile.
         /// </summary>
-        public GeoHeader GeoHeader { get; set; }
+        public GeoHeader GeoHeader { get; private set; }
+
+
+
+        /* DATA ARRAY HASHCODES */
+
+        public List<uint> GeoSectionHashCodes  { get; private set; } = new List<uint>();
+        public List<uint> RefPointerHashCodes  { get; private set; } = new List<uint>();
+        public List<uint> EntityHashCodes      { get; private set; } = new List<uint>();
+        public List<uint> AnimHashCodes        { get; private set; } = new List<uint>();
+        public List<uint> AnimSkinHashCodes    { get; private set; } = new List<uint>();
+        public List<uint> ScriptHashCodes      { get; private set; } = new List<uint>();
+        public List<uint> MapHashCodes         { get; private set; } = new List<uint>();
+        public List<uint> AnimModeHashCodes    { get; private set; } = new List<uint>();
+        public List<uint> AnimSetHashCodes     { get; private set; } = new List<uint>();
+        public List<uint> ParticleHashCodes    { get; private set; } = new List<uint>();
+        public List<uint> SwooshHashCodes      { get; private set; } = new List<uint>();
+        public List<uint> SpreadSheetHashCodes { get; private set; } = new List<uint>();
+        public List<uint> FontHashCodes        { get; private set; } = new List<uint>();
+        public List<uint> TextureHashCodes     { get; private set; } = new List<uint>();
+
+
+
+        /* DATA ARRAY HEADERS */
+
+        public List<GeoSectionHeader> SectionHeaders { get; private set; } = new List<GeoSectionHeader>();
+
+        public List<RefPointerHeader> RefPointerHeaders { get; private set; } = new List<RefPointerHeader>();
 
 
 
@@ -57,22 +96,59 @@ namespace EDBTools.Geo
 
         public GeoFile(BinaryReader reader)
         {
-            bool? endian = TestEndianness(reader);
+            //Get endianness
 
+            bool? endian = TestEndianness(reader);
             if (!endian.HasValue)
                 throw new IOException("Indeterminate endianness for the GeoFile supplied to the reader" +
                                       " - Marker value read neither \"GEOM\" or \"MOEG\".");
-            
             BigEndian = endian.Value;
 
+            //Get platform
+
             GeoHeader = new GeoHeader(reader, endian.Value);
-
             GamePlatform? platform = GeoHeader.TestPlatform();
-
             if (!platform.HasValue)
                 throw new IOException("Indeterminate game platform for the GeoFile supplied to the reader.");
-
             Platform = platform.Value;
+
+            //Read data array hashcodes:
+
+            PopulateHeaderHashCodeList(GeoSectionHashCodes,  GeoHeader.SectionList,     reader, endian.Value);
+            PopulateHeaderHashCodeList(RefPointerHashCodes,  GeoHeader.RefPointerList,  reader, endian.Value);
+            PopulateHeaderHashCodeList(EntityHashCodes,      GeoHeader.EntityList,      reader, endian.Value);
+            PopulateHeaderHashCodeList(AnimHashCodes,        GeoHeader.AnimList,        reader, endian.Value);
+            PopulateHeaderHashCodeList(AnimSkinHashCodes,    GeoHeader.AnimSkinList,    reader, endian.Value);
+            PopulateHeaderHashCodeList(ScriptHashCodes,      GeoHeader.ScriptList,      reader, endian.Value);
+            PopulateHeaderHashCodeList(MapHashCodes,         GeoHeader.MapList,         reader, endian.Value);
+            PopulateHeaderHashCodeList(AnimModeHashCodes,    GeoHeader.AnimModeList,    reader, endian.Value);
+            PopulateHeaderHashCodeList(AnimSetHashCodes,     GeoHeader.AnimSetList,     reader, endian.Value);
+            PopulateHeaderHashCodeList(ParticleHashCodes,    GeoHeader.ParticleList,    reader, endian.Value);
+            PopulateHeaderHashCodeList(SwooshHashCodes,      GeoHeader.SwooshList,      reader, endian.Value);
+            PopulateHeaderHashCodeList(SpreadSheetHashCodes, GeoHeader.SpreadSheetList, reader, endian.Value);
+            PopulateHeaderHashCodeList(FontHashCodes,        GeoHeader.FontList,        reader, endian.Value);
+            PopulateHeaderHashCodeList(TextureHashCodes,     GeoHeader.TextureList,     reader, endian.Value);
+
+            //Read data arrays:
+            long addr;
+            
+            //Sections
+            addr = GeoHeader.SectionList.Offset.ToAbsolute();
+            for (int i = 0; i < GeoHeader.SectionList.ArraySize; i++)
+            {
+                reader.BaseStream.Seek(addr, SeekOrigin.Begin);
+                SectionHeaders.Add(new GeoSectionHeader(reader, endian.Value));
+                addr += SectionHeaders[i].HEADER_SIZE;
+            }
+
+            //Ref Pointers
+            addr = GeoHeader.RefPointerList.Offset.ToAbsolute();
+            for (int i = 0; i < GeoHeader.RefPointerList.ArraySize; i++)
+            {
+                reader.BaseStream.Seek(addr, SeekOrigin.Begin);
+                RefPointerHeaders.Add(new RefPointerHeader(reader, endian.Value));
+                addr += RefPointerHeaders[i].HEADER_SIZE;
+            }
         }
 
 
@@ -115,6 +191,28 @@ namespace EDBTools.Geo
                 default:
                     return null;
             }
+        }
+
+        /// <summary>
+        /// Take a list and add the HashCodes prefixed to the data array header referenced by the given <see cref="GeoCommonArray"/>.
+        /// Will only add hashcodes if <see cref="GeoCommonArray.HashSize"/> is negative.
+        /// </summary>
+        /// <param name="list">List to populate with HashCodes.</param>
+        /// <param name="array">Data array descriptor.</param>
+        /// <returns>The input list, now with added HashCodes (if any).</returns>
+        public List<uint> PopulateHeaderHashCodeList(List<uint> list, GeoCommonArray array, BinaryReader reader, bool bigEndian)
+        {
+            if (array.HashSize >= 0) return list;
+
+            long startAddress = array.Offset.ToAbsolute() + (array.HashSize * 4);
+            reader.BaseStream.Seek(startAddress, SeekOrigin.Begin);
+
+            for(int i = 0; i < Math.Abs(array.HashSize); i++)
+            {
+                list.Add(reader.ReadUInt32(bigEndian));
+            }
+
+            return list;
         }
 
         public override string ToString()

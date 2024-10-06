@@ -1,4 +1,4 @@
-﻿namespace EDBTools.HashCodes
+﻿namespace EDBTools.HashCodes.Spyro
 {
     /// <summary>
     /// A unique 4-byte tag for every object or asset in the game.

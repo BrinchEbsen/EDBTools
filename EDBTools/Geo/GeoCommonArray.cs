@@ -16,6 +16,8 @@ namespace EDBTools.Geo
     /// </summary>
     public class GeoCommonArray
     {
+        public long Address { get; set; }
+
         /// <summary>
         /// Size of the data array.
         /// </summary>
@@ -31,6 +33,7 @@ namespace EDBTools.Geo
 
         public GeoCommonArray(BinaryReader reader, bool bigEndian)
         {
+            Address = reader.BaseStream.Position;
             ArraySize = reader.ReadInt16(bigEndian);
             HashSize = reader.ReadInt16(bigEndian);
             Offset = new RelPtr(reader, bigEndian);

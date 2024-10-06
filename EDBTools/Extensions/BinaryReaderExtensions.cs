@@ -80,11 +80,25 @@ namespace Extensions
 
         public static string ReadASCIIString(this BinaryReader reader)
         {
+            return ReadASCIIString(reader, -1);
+        }
+
+        public static string ReadASCIIString(this BinaryReader reader, int length)
+        {
+            if (length == 0) return string.Empty;
+
             StringBuilder sb = new StringBuilder();
 
-            for (char c = (char)reader.ReadByte(); c != 0; c = (char)reader.ReadByte())
+            int index = 0;
+            for (char c = (char)reader.ReadByte(); true; c = (char)reader.ReadByte())
             {
+                if (length >= 0)
+                    if (index >= length) break;
+                else
+                    if (c == 0) break;
+
                 sb.Append(c);
+                index++;
             }
 
             return sb.ToString();

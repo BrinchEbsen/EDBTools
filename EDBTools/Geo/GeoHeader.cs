@@ -1,6 +1,7 @@
 ﻿using Common;
 using EDBTools.Geo;
-using EDBTools.HashCodes;
+using EDBTools.Geo.Headers;
+using EDBTools.HashCodes.Spyro;
 using Extensions;
 using System;
 using System.Collections.Generic;
@@ -12,14 +13,16 @@ using System.Threading.Tasks;
 namespace EDBTools
 {
     /// <summary>
-    /// <para></para>
+    /// The header of a GeoFile, which will contain basic information such as
+    /// version number, hashcode, filesize etc.,
+    /// as well as a set of descriptors for each type of asset stored within the GeoFile.
     /// </summary>
     public class GeoHeader
     {
         /* VARIABLES */
 
         /// <summary>
-        /// <para>The marker at the very start of the GeoFile.</para>
+        /// <para>The 4-byte marker at the very start of the GeoFile.</para>
         /// <para>Works as a magic value to identify the file to be a GeoFile.
         /// Will read "GEOM" when big endian and "MOEG" when little endian.</para>
         /// </summary>
@@ -61,8 +64,14 @@ namespace EDBTools
         /// </summary>
         public uint[] Versions { get; private set; }
 
+        /// <summary>
+        /// Offset in bytes of the debug section in this GeoFile.
+        /// </summary>
         public uint DebugSectionOffset { get; private set; }
 
+        /// <summary>
+        /// Offset in bytes of the end of the debug section in this GeoFile.
+        /// </summary>
         public uint DebugSectionEndOffset { get; private set; }
 
 
