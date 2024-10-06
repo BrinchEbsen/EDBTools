@@ -94,6 +94,8 @@ namespace EDBTools.Geo
 
         public List<GeoAnimHeader> AnimHeaders { get; private set; } = new List<GeoAnimHeader>();
 
+        public List<GeoAnimSkinHeader> AnimSkinHeaders { get; private set; } = new List<GeoAnimSkinHeader>();
+
 
 
         /* CONSTRUCTORS */
@@ -170,6 +172,15 @@ namespace EDBTools.Geo
                 reader.BaseStream.Seek(addr, SeekOrigin.Begin);
                 AnimHeaders.Add(new GeoAnimHeader(reader, endian.Value));
                 addr += AnimHeaders[i].HEADER_SIZE;
+            }
+
+            //Animation skins
+            addr = GeoHeader.AnimSkinList.Offset.AbsoluteAddress;
+            for (int i = 0; i < GeoHeader.AnimSkinList.ArraySize; i++)
+            {
+                reader.BaseStream.Seek(addr, SeekOrigin.Begin);
+                AnimSkinHeaders.Add(new GeoAnimSkinHeader(reader, endian.Value));
+                addr += AnimSkinHeaders[i].HEADER_SIZE;
             }
         }
 
