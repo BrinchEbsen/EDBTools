@@ -47,6 +47,8 @@
     <Compile Include="Geo\GeoCommonArray.cs" />
     <Compile Include="Geo\GeoFile.cs" />
     <Compile Include="Geo\GeoHeader.cs" />
+    <Compile Include="Geo\Headers\GeoMapHeader.cs" />
+    <Compile Include="Geo\Headers\GeoScriptHeader.cs" />
     <Compile Include="Geo\Headers\GeoAnimSkinHeader.cs" />
     <Compile Include="Geo\Headers\GeoCommonHeader.cs" />
     <Compile Include="Geo\Headers\GeoAnimHeader.cs" />
