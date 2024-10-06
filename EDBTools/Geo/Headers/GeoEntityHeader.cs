@@ -9,26 +9,17 @@ using System.Threading.Tasks;
 
 namespace EDBTools.Geo.Headers
 {
-    public class GeoEntityHeader : GeoCommonHeader
+    public class GeoEntityHeader : GeoCommonArrayElement
     {
         public override long HEADER_SIZE
         {
-            get { return 0x14; }
+            get { return base.HEADER_SIZE + 0x4; }
         }
 
-        public short Section { get; private set; }
-        public short Debug1 { get; private set; }
-        public uint Debug2 { get; private set; }
-        public long Address { get; private set; }
         public RelPtr LodTable { get; private set; }
 
-        public GeoEntityHeader(BinaryReader reader, bool bigEndian) : base(reader)
+        public GeoEntityHeader(BinaryReader reader, bool bigEndian) : base(reader, bigEndian)
         {
-            HashCode = reader.ReadUInt32(bigEndian);
-            Section = reader.ReadInt16(bigEndian);
-            Debug1 = reader.ReadInt16(bigEndian);
-            Debug2 = reader.ReadUInt32(bigEndian);
-            Address = reader.ReadUInt32(bigEndian);
             LodTable = new RelPtr(reader, bigEndian);
         }
     }

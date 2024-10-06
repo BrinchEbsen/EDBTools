@@ -8,23 +8,15 @@ using System.Threading.Tasks;
 
 namespace EDBTools.Geo.Headers
 {
-    public class GeoParticleHeader : GeoCommonHeader
+    public class GeoParticleHeader : GeoCommonArrayElement
     {
         public override long HEADER_SIZE
         {
-            get { return 0x10; }
+            get { return base.HEADER_SIZE; }
         }
 
-        public short Section { get; private set; }
-        public short Debug { get; private set; }
-        public long Address { get; private set; }
-
-        public GeoParticleHeader(BinaryReader reader, bool bigEndian) : base(reader)
+        public GeoParticleHeader(BinaryReader reader, bool bigEndian) : base(reader, bigEndian)
         {
-            HashCode = reader.ReadUInt32(bigEndian);
-            Section = reader.ReadInt16(bigEndian);
-            Debug = reader.ReadInt16(bigEndian);
-            Address = reader.ReadUInt32(bigEndian);
         }
     }
 }

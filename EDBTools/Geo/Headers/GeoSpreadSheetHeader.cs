@@ -8,25 +8,17 @@ using System.Threading.Tasks;
 
 namespace EDBTools.Geo.Headers
 {
-    public class GeoSpreadSheetHeader : GeoCommonHeader
+    public class GeoSpreadSheetHeader : GeoCommonArrayElement
     {
         public override long HEADER_SIZE
         {
-            get { return 0x10; }
+            get { return base.HEADER_SIZE + 0x4; }
         }
 
-        public short Section { get; private set; }
-        public short Debug { get; private set; }
-        public long Address { get; private set; }
         public uint Type { get; private set; }
 
-        public GeoSpreadSheetHeader(BinaryReader reader, bool bigEndian) : base(reader)
+        public GeoSpreadSheetHeader(BinaryReader reader, bool bigEndian) : base(reader, bigEndian)
         {
-            HashCode = reader.ReadUInt32(bigEndian);
-            Section = reader.ReadInt16(bigEndian);
-            Debug = reader.ReadInt16(bigEndian);
-            Address = reader.ReadUInt32(bigEndian);
-            reader.BaseStream.Seek(4, SeekOrigin.Current);
             Type = reader.ReadUInt32(bigEndian);
         }
     }

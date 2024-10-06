@@ -9,27 +9,19 @@ using System.Threading.Tasks;
 
 namespace EDBTools.Geo.Headers
 {
-    public class GeoAnimSkinHeader : GeoCommonHeader
+    public class GeoAnimSkinHeader : GeoCommonArrayElement
     {
         public override long HEADER_SIZE
         {
-            get { return 0x1C; }
+            get { return base.HEADER_SIZE + 0xC; }
         }
 
-        public short Section { get; private set; }
-        public short Debug { get; private set; }
-        public long Address { get; private set; }
         public uint BaseSkinNum { get; private set; }
         public uint MipRef { get; private set; }
         public float MipDistance { get; private set; }
 
-        public GeoAnimSkinHeader(BinaryReader reader, bool bigEndian) : base(reader)
+        public GeoAnimSkinHeader(BinaryReader reader, bool bigEndian) : base(reader, bigEndian)
         {
-            HashCode = reader.ReadUInt32(bigEndian);
-            Section = reader.ReadInt16(bigEndian);
-            Debug = reader.ReadInt16(bigEndian);
-            Address = reader.ReadUInt32(bigEndian);
-            reader.BaseStream.Seek(4, SeekOrigin.Current);
             BaseSkinNum = reader.ReadUInt32(bigEndian);
             MipRef = reader.ReadUInt32(bigEndian);
             MipDistance = reader.ReadSingle(bigEndian);

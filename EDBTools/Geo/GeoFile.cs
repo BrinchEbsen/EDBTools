@@ -215,6 +215,15 @@ namespace EDBTools.Geo
                 SpreadSheetHeaders.Add(new GeoSpreadSheetHeader(reader, endian.Value));
                 addr += SpreadSheetHeaders[i].HEADER_SIZE;
             }
+
+            //Textures
+            addr = GeoHeader.SpreadSheetList.Offset.AbsoluteAddress;
+            for (int i = 0; i < GeoHeader.SpreadSheetList.ArraySize; i++)
+            {
+                reader.BaseStream.Seek(addr, SeekOrigin.Begin);
+                SpreadSheetHeaders.Add(new GeoSpreadSheetHeader(reader, endian.Value));
+                addr += SpreadSheetHeaders[i].HEADER_SIZE;
+            }
         }
 
 
