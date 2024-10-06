@@ -1,10 +1,5 @@
 ﻿using Extensions;
-using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace EDBTools.Common
 {
@@ -22,6 +17,20 @@ namespace EDBTools.Common
         /// </summary>
         public int Offset { get; private set; }
 
+        /// <summary>
+        /// The absolute address this relative pointer is referencing.
+        /// Will be 0 if the stored offset is 0.
+        /// </summary>
+        public long AbsoluteAddress
+        {
+            get
+            {
+                if (Offset == 0) return 0;
+
+                return Address + Offset;
+            }
+        }
+
         public RelPtr(long addr, int offs) 
         { 
             Address = addr;
@@ -32,18 +41,6 @@ namespace EDBTools.Common
         {
             Address = reader.BaseStream.Position;
             Offset = reader.ReadInt32(bigEndian);
-        }
-
-        /// <summary>
-        /// Get the absolute address this relative pointer is referencing.
-        /// </summary>
-        /// <returns>The absolute address this relative pointer is referencing.
-        /// Will be 0 if offset is 0 (null pointer).</returns>
-        public long ToAbsolute()
-        {
-            if (Offset == 0) return 0;
-
-            return Address + Offset;
         }
     }
 }

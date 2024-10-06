@@ -90,6 +90,8 @@ namespace EDBTools.Geo
 
         public List<RefPointerHeader> RefPointerHeaders { get; private set; } = new List<RefPointerHeader>();
 
+        public List<GeoEntityHeader> EntityHeaders { get; private set; } = new List<GeoEntityHeader>();
+
 
 
         /* CONSTRUCTORS */
@@ -133,7 +135,7 @@ namespace EDBTools.Geo
             long addr;
             
             //Sections
-            addr = GeoHeader.SectionList.Offset.ToAbsolute();
+            addr = GeoHeader.SectionList.Offset.AbsoluteAddress;
             for (int i = 0; i < GeoHeader.SectionList.ArraySize; i++)
             {
                 reader.BaseStream.Seek(addr, SeekOrigin.Begin);
@@ -142,12 +144,21 @@ namespace EDBTools.Geo
             }
 
             //Ref Pointers
-            addr = GeoHeader.RefPointerList.Offset.ToAbsolute();
+            addr = GeoHeader.RefPointerList.Offset.AbsoluteAddress;
             for (int i = 0; i < GeoHeader.RefPointerList.ArraySize; i++)
             {
                 reader.BaseStream.Seek(addr, SeekOrigin.Begin);
                 RefPointerHeaders.Add(new RefPointerHeader(reader, endian.Value));
                 addr += RefPointerHeaders[i].HEADER_SIZE;
+            }
+
+            //Ref Pointers
+            addr = GeoHeader.EntityList.Offset.AbsoluteAddress;
+            for (int i = 0; i < GeoHeader.EntityList.ArraySize; i++)
+            {
+                reader.BaseStream.Seek(addr, SeekOrigin.Begin);
+                EntityHeaders.Add(new GeoEntityHeader(reader, endian.Value));
+                addr += EntityHeaders[i].HEADER_SIZE;
             }
         }
 
@@ -204,7 +215,7 @@ namespace EDBTools.Geo
         {
             if (array.HashSize >= 0) return list;
 
-            long startAddress = array.Offset.ToAbsolute() + (array.HashSize * 4);
+            long startAddress = array.Offset.AbsoluteAddress + (array.HashSize * 4);
             reader.BaseStream.Seek(startAddress, SeekOrigin.Begin);
 
             for(int i = 0; i < Math.Abs(array.HashSize); i++)
