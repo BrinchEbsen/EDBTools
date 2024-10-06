@@ -98,6 +98,10 @@ namespace EDBTools.Geo
 
         public List<GeoScriptHeader> ScriptHeaders { get; private set; } = new List<GeoScriptHeader>();
 
+        public List<GeoParticleHeader> ParticleHeaders { get; private set; } = new List<GeoParticleHeader>();
+
+        public List<GeoSpreadSheetHeader> SpreadSheetHeaders { get; private set; } = new List<GeoSpreadSheetHeader>();
+
 
 
         /* CONSTRUCTORS */
@@ -192,6 +196,24 @@ namespace EDBTools.Geo
                 reader.BaseStream.Seek(addr, SeekOrigin.Begin);
                 ScriptHeaders.Add(new GeoScriptHeader(reader, endian.Value));
                 addr += ScriptHeaders[i].HEADER_SIZE;
+            }
+
+            //Particles
+            addr = GeoHeader.ParticleList.Offset.AbsoluteAddress;
+            for (int i = 0; i < GeoHeader.ParticleList.ArraySize; i++)
+            {
+                reader.BaseStream.Seek(addr, SeekOrigin.Begin);
+                ParticleHeaders.Add(new GeoParticleHeader(reader, endian.Value));
+                addr += ParticleHeaders[i].HEADER_SIZE;
+            }
+
+            //SpreadSheets
+            addr = GeoHeader.SpreadSheetList.Offset.AbsoluteAddress;
+            for (int i = 0; i < GeoHeader.SpreadSheetList.ArraySize; i++)
+            {
+                reader.BaseStream.Seek(addr, SeekOrigin.Begin);
+                SpreadSheetHeaders.Add(new GeoSpreadSheetHeader(reader, endian.Value));
+                addr += SpreadSheetHeaders[i].HEADER_SIZE;
             }
         }
 

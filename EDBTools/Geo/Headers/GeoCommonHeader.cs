@@ -15,7 +15,7 @@ namespace EDBTools.Geo.Headers
         /// <summary>
         /// Size of the data header in bytes.
         /// </summary>
-        public virtual long HEADER_SIZE { get; private set; }
+        public virtual long HEADER_SIZE { get; }
 
         /// <summary>
         /// Address of the data header in bytes.
