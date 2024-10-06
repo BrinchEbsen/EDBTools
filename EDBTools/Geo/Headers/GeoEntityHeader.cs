@@ -16,11 +16,11 @@ namespace EDBTools.Geo.Headers
             get { return 0x14; }
         }
 
-        public short Section { get; set; }
-        public short Debug1 { get; set; }
-        public uint Debug2 { get; set; }
-        public long Address { get; set; }
-        public RelPtr LodTable { get; set; }
+        public short Section { get; private set; }
+        public short Debug1 { get; private set; }
+        public uint Debug2 { get; private set; }
+        public long Address { get; private set; }
+        public RelPtr LodTable { get; private set; }
 
         public GeoEntityHeader(BinaryReader reader, bool bigEndian) : base(reader)
         {

@@ -92,6 +92,8 @@ namespace EDBTools.Geo
 
         public List<GeoEntityHeader> EntityHeaders { get; private set; } = new List<GeoEntityHeader>();
 
+        public List<GeoAnimHeader> AnimHeaders { get; private set; } = new List<GeoAnimHeader>();
+
 
 
         /* CONSTRUCTORS */
@@ -152,13 +154,22 @@ namespace EDBTools.Geo
                 addr += RefPointerHeaders[i].HEADER_SIZE;
             }
 
-            //Ref Pointers
+            //Entities
             addr = GeoHeader.EntityList.Offset.AbsoluteAddress;
             for (int i = 0; i < GeoHeader.EntityList.ArraySize; i++)
             {
                 reader.BaseStream.Seek(addr, SeekOrigin.Begin);
                 EntityHeaders.Add(new GeoEntityHeader(reader, endian.Value));
                 addr += EntityHeaders[i].HEADER_SIZE;
+            }
+
+            //Animations
+            addr = GeoHeader.AnimList.Offset.AbsoluteAddress;
+            for (int i = 0; i < GeoHeader.AnimList.ArraySize; i++)
+            {
+                reader.BaseStream.Seek(addr, SeekOrigin.Begin);
+                AnimHeaders.Add(new GeoAnimHeader(reader, endian.Value));
+                addr += AnimHeaders[i].HEADER_SIZE;
             }
         }
 

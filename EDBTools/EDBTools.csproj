@@ -48,6 +48,7 @@
     <Compile Include="Geo\GeoFile.cs" />
     <Compile Include="Geo\GeoHeader.cs" />
     <Compile Include="Geo\Headers\GeoCommonHeader.cs" />
+    <Compile Include="Geo\Headers\GeoAnimHeader.cs" />
     <Compile Include="Geo\Headers\GeoEntityHeader.cs" />
     <Compile Include="Geo\Headers\GeoSectionHeader.cs" />
     <Compile Include="Geo\Headers\RefPointerHeader.cs" />

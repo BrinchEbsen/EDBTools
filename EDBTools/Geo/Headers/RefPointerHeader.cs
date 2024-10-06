@@ -15,10 +15,10 @@ namespace EDBTools.Geo.Headers
             get { return 0x10; }
         }
 
-        public short Section { get; set; }
-        public long Address { get; set; }
-        public short Debug1 { get; set; }
-        public uint Debug2 { get; set; }
+        public short Section { get; private set; }
+        public long Address { get; private set; }
+        public short Debug1 { get; private set; }
+        public uint Debug2 { get; private set; }
 
         public RefPointerHeader(BinaryReader reader, bool bigEndian) : base(reader)
         {
