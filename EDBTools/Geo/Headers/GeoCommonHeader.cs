@@ -38,6 +38,12 @@ namespace EDBTools.Geo.Headers
             ReadFromFile(reader, bigEndian);
         }
 
+        /// <summary>
+        /// Read the header information from the given reader's current position.
+        /// </summary>
+        /// <param name="reader">Reader with the current stream position set at the start of the header data.</param>
+        /// <param name="bigEndian">Whether to read the data in big endian.</param> 
+        /// <returns></returns>
         public virtual GeoCommonHeader ReadFromFile(BinaryReader reader, bool bigEndian)
         {
             HeaderAddress = reader.BaseStream.Position;

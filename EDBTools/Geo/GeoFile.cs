@@ -235,6 +235,14 @@ namespace EDBTools.Geo
             return list;
         }
 
+        /// <summary>
+        /// Take a list and add the data array headers referenced by the given <see cref="GeoCommonArray"/>.
+        /// </summary>
+        /// <typeparam name="T">A header which derives from <see cref="GeoCommonArray"/>
+        /// and contains a parameterless constructor.</typeparam>
+        /// <param name="list">List to populate with headers.</param>
+        /// <param name="array">Data array descriptor.</param>
+        /// <returns>The input list, now with added headers (if any).</returns>
         private List<T> PopulateHeaderList<T>
             (List<T> list, GeoCommonArray array, BinaryReader reader, bool bigEndian) 
             where T : GeoCommonHeader, new()
