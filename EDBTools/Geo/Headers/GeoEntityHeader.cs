@@ -18,9 +18,20 @@ namespace EDBTools.Geo.Headers
 
         public RelPtr LodTable { get; private set; }
 
+        public GeoEntityHeader()
+        {
+        }
+
         public GeoEntityHeader(BinaryReader reader, bool bigEndian) : base(reader, bigEndian)
         {
+        }
+
+        public override GeoCommonHeader ReadFromFile(BinaryReader reader, bool bigEndian)
+        {
+            base.ReadFromFile(reader, bigEndian);
             LodTable = new RelPtr(reader, bigEndian);
+
+            return this;
         }
     }
 }

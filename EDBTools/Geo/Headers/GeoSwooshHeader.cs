@@ -8,18 +8,18 @@ using System.Threading.Tasks;
 
 namespace EDBTools.Geo.Headers
 {
-    public class GeoFontHeader : GeoCommonArrayElement
+    public class GeoSwooshHeader : GeoCommonArrayElement
     {
         public override long HEADER_SIZE
         {
             get { return base.HEADER_SIZE; }
         }
 
-        public GeoFontHeader()
+        public GeoSwooshHeader()
         {
         }
 
-        public GeoFontHeader(BinaryReader reader, bool bigEndian) : base(reader, bigEndian)
+        public GeoSwooshHeader(BinaryReader reader, bool bigEndian) : base(reader, bigEndian)
         {
         }
 

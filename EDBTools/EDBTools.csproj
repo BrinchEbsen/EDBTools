@@ -47,7 +47,11 @@
     <Compile Include="Geo\GeoCommonArray.cs" />
     <Compile Include="Geo\GeoFile.cs" />
     <Compile Include="Geo\GeoHeader.cs" />
+    <Compile Include="Geo\Headers\GeoAnimSetHeader.cs" />
     <Compile Include="Geo\Headers\GeoCommonArrayElement.cs" />
+    <Compile Include="Geo\Headers\GeoAnimModeHeader.cs" />
+    <Compile Include="Geo\Headers\GeoSwooshHeader.cs" />
+    <Compile Include="Geo\Headers\GeoFontHeader.cs" />
     <Compile Include="Geo\Headers\GeoTextureHeader.cs" />
     <Compile Include="Geo\Headers\GeoSpreadSheetHeader.cs" />
     <Compile Include="Geo\Headers\GeoParticleHeader.cs" />

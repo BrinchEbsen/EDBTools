@@ -16,9 +16,19 @@ namespace EDBTools.Geo.Headers
             get { return base.HEADER_SIZE; }
         }
 
+        public GeoScriptHeader()
+        {
+        }
 
         public GeoScriptHeader(BinaryReader reader, bool bigEndian) : base(reader, bigEndian)
         {
+        }
+
+        public override GeoCommonHeader ReadFromFile(BinaryReader reader, bool bigEndian)
+        {
+            base.ReadFromFile(reader, bigEndian);
+
+            return this;
         }
     }
 }

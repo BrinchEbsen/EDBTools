@@ -17,9 +17,20 @@ namespace EDBTools.Geo.Headers
 
         public uint Type { get; private set; }
 
+        public GeoSpreadSheetHeader()
+        {
+        }
+
         public GeoSpreadSheetHeader(BinaryReader reader, bool bigEndian) : base(reader, bigEndian)
         {
+        }
+
+        public override GeoCommonHeader ReadFromFile(BinaryReader reader, bool bigEndian)
+        {
+            base.ReadFromFile(reader, bigEndian);
             Type = reader.ReadUInt32(bigEndian);
+
+            return this;
         }
     }
 }

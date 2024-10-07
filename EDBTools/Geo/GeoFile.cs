@@ -98,9 +98,21 @@ namespace EDBTools.Geo
 
         public List<GeoScriptHeader> ScriptHeaders { get; private set; } = new List<GeoScriptHeader>();
 
+        public List<GeoMapHeader> MapHeaders { get; private set; } = new List<GeoMapHeader>();
+
+        public List<GeoAnimModeHeader> AnimModeHeaders { get; private set; } = new List<GeoAnimModeHeader>();
+
+        public List<GeoAnimSetHeader> AnimSetHeaders { get; private set; } = new List<GeoAnimSetHeader>();
+
         public List<GeoParticleHeader> ParticleHeaders { get; private set; } = new List<GeoParticleHeader>();
 
+        public List<GeoSwooshHeader> SwooshHeaders { get; private set; } = new List<GeoSwooshHeader>();
+
         public List<GeoSpreadSheetHeader> SpreadSheetHeaders { get; private set; } = new List<GeoSpreadSheetHeader>();
+
+        public List<GeoFontHeader> FontHeaders { get; private set; } = new List<GeoFontHeader>();
+
+        public List<GeoTextureHeader> TextureHeaders { get; private set; } = new List<GeoTextureHeader>();
 
 
 
@@ -142,88 +154,21 @@ namespace EDBTools.Geo
             PopulateHeaderHashCodeList(TextureHashCodes,     GeoHeader.TextureList,     reader, endian.Value);
 
             //Read data arrays:
-            long addr;
-            
-            //Sections
-            addr = GeoHeader.SectionList.Offset.AbsoluteAddress;
-            for (int i = 0; i < GeoHeader.SectionList.ArraySize; i++)
-            {
-                reader.BaseStream.Seek(addr, SeekOrigin.Begin);
-                SectionHeaders.Add(new GeoSectionHeader(reader, endian.Value));
-                addr += SectionHeaders[i].HEADER_SIZE;
-            }
 
-            //Ref Pointers
-            addr = GeoHeader.RefPointerList.Offset.AbsoluteAddress;
-            for (int i = 0; i < GeoHeader.RefPointerList.ArraySize; i++)
-            {
-                reader.BaseStream.Seek(addr, SeekOrigin.Begin);
-                RefPointerHeaders.Add(new RefPointerHeader(reader, endian.Value));
-                addr += RefPointerHeaders[i].HEADER_SIZE;
-            }
-
-            //Entities
-            addr = GeoHeader.EntityList.Offset.AbsoluteAddress;
-            for (int i = 0; i < GeoHeader.EntityList.ArraySize; i++)
-            {
-                reader.BaseStream.Seek(addr, SeekOrigin.Begin);
-                EntityHeaders.Add(new GeoEntityHeader(reader, endian.Value));
-                addr += EntityHeaders[i].HEADER_SIZE;
-            }
-
-            //Animations
-            addr = GeoHeader.AnimList.Offset.AbsoluteAddress;
-            for (int i = 0; i < GeoHeader.AnimList.ArraySize; i++)
-            {
-                reader.BaseStream.Seek(addr, SeekOrigin.Begin);
-                AnimHeaders.Add(new GeoAnimHeader(reader, endian.Value));
-                addr += AnimHeaders[i].HEADER_SIZE;
-            }
-
-            //Animation skins
-            addr = GeoHeader.AnimSkinList.Offset.AbsoluteAddress;
-            for (int i = 0; i < GeoHeader.AnimSkinList.ArraySize; i++)
-            {
-                reader.BaseStream.Seek(addr, SeekOrigin.Begin);
-                AnimSkinHeaders.Add(new GeoAnimSkinHeader(reader, endian.Value));
-                addr += AnimSkinHeaders[i].HEADER_SIZE;
-            }
-
-            //Scripts
-            addr = GeoHeader.ScriptList.Offset.AbsoluteAddress;
-            for (int i = 0; i < GeoHeader.ScriptList.ArraySize; i++)
-            {
-                reader.BaseStream.Seek(addr, SeekOrigin.Begin);
-                ScriptHeaders.Add(new GeoScriptHeader(reader, endian.Value));
-                addr += ScriptHeaders[i].HEADER_SIZE;
-            }
-
-            //Particles
-            addr = GeoHeader.ParticleList.Offset.AbsoluteAddress;
-            for (int i = 0; i < GeoHeader.ParticleList.ArraySize; i++)
-            {
-                reader.BaseStream.Seek(addr, SeekOrigin.Begin);
-                ParticleHeaders.Add(new GeoParticleHeader(reader, endian.Value));
-                addr += ParticleHeaders[i].HEADER_SIZE;
-            }
-
-            //SpreadSheets
-            addr = GeoHeader.SpreadSheetList.Offset.AbsoluteAddress;
-            for (int i = 0; i < GeoHeader.SpreadSheetList.ArraySize; i++)
-            {
-                reader.BaseStream.Seek(addr, SeekOrigin.Begin);
-                SpreadSheetHeaders.Add(new GeoSpreadSheetHeader(reader, endian.Value));
-                addr += SpreadSheetHeaders[i].HEADER_SIZE;
-            }
-
-            //Textures
-            addr = GeoHeader.SpreadSheetList.Offset.AbsoluteAddress;
-            for (int i = 0; i < GeoHeader.SpreadSheetList.ArraySize; i++)
-            {
-                reader.BaseStream.Seek(addr, SeekOrigin.Begin);
-                SpreadSheetHeaders.Add(new GeoSpreadSheetHeader(reader, endian.Value));
-                addr += SpreadSheetHeaders[i].HEADER_SIZE;
-            }
+            PopulateHeaderList<GeoSectionHeader>    (SectionHeaders,     GeoHeader.SectionList,     reader, endian.Value);
+            PopulateHeaderList<RefPointerHeader>    (RefPointerHeaders,  GeoHeader.RefPointerList,  reader, endian.Value);
+            PopulateHeaderList<GeoEntityHeader>     (EntityHeaders,      GeoHeader.EntityList,      reader, endian.Value);
+            PopulateHeaderList<GeoAnimHeader>       (AnimHeaders,        GeoHeader.AnimList,        reader, endian.Value);
+            PopulateHeaderList<GeoAnimSkinHeader>   (AnimSkinHeaders,    GeoHeader.AnimSkinList,    reader, endian.Value);
+            PopulateHeaderList<GeoScriptHeader>     (ScriptHeaders,      GeoHeader.ScriptList,      reader, endian.Value);
+            PopulateHeaderList<GeoMapHeader>        (MapHeaders,         GeoHeader.MapList,         reader, endian.Value);
+            PopulateHeaderList<GeoAnimModeHeader>   (AnimModeHeaders,    GeoHeader.AnimModeList,    reader, endian.Value);
+            PopulateHeaderList<GeoAnimSetHeader>    (AnimSetHeaders,     GeoHeader.AnimSetList,     reader, endian.Value);
+            PopulateHeaderList<GeoParticleHeader>   (ParticleHeaders,    GeoHeader.ParticleList,    reader, endian.Value);
+            PopulateHeaderList<GeoSwooshHeader>     (SwooshHeaders,      GeoHeader.SwooshList,      reader, endian.Value);
+            PopulateHeaderList<GeoSpreadSheetHeader>(SpreadSheetHeaders, GeoHeader.SpreadSheetList, reader, endian.Value);
+            PopulateHeaderList<GeoFontHeader>       (FontHeaders,        GeoHeader.FontList,        reader, endian.Value);
+            PopulateHeaderList<GeoTextureHeader>    (TextureHeaders,     GeoHeader.TextureList,     reader, endian.Value);
         }
 
 
@@ -285,6 +230,24 @@ namespace EDBTools.Geo
             for(int i = 0; i < Math.Abs(array.HashSize); i++)
             {
                 list.Add(reader.ReadUInt32(bigEndian));
+            }
+
+            return list;
+        }
+
+        private List<T> PopulateHeaderList<T>
+            (List<T> list, GeoCommonArray array, BinaryReader reader, bool bigEndian) 
+            where T : GeoCommonHeader, new()
+        {
+            list.Clear();
+
+            long addr = array.Offset.AbsoluteAddress;
+            for (int i = 0; i < array.ArraySize; i++)
+            {
+                reader.BaseStream.Seek(addr, SeekOrigin.Begin);
+                GeoCommonHeader header = new T();
+                list.Insert(i, header.ReadFromFile(reader, bigEndian) as T);
+                addr += list[i].HEADER_SIZE;
             }
 
             return list;

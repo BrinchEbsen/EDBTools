@@ -20,12 +20,23 @@ namespace EDBTools.Geo.Headers
         public uint DataSize { get; private set; }
         public uint SkinNum { get; private set; }
 
+        public GeoAnimHeader()
+        {
+        }
+
         public GeoAnimHeader(BinaryReader reader, bool bigEndian) : base(reader, bigEndian)
         {
+        }
+
+        public override GeoCommonHeader ReadFromFile(BinaryReader reader, bool bigEndian)
+        {
+            base.ReadFromFile(reader, bigEndian);
             MotionDataInfo = reader.ReadUInt32(bigEndian);
             reader.BaseStream.Seek(4, SeekOrigin.Current);
             DataSize = reader.ReadUInt32(bigEndian);
             SkinNum = reader.ReadUInt32(bigEndian);
+
+            return this;
         }
     }
 }

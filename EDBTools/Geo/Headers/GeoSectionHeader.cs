@@ -18,11 +18,22 @@ namespace EDBTools.Geo.Headers
         public uint StartOffset { get; private set; }
         public uint EndOffset { get; private set; }
 
-        public GeoSectionHeader(BinaryReader reader, bool bigEndian) : base(reader)
+        public GeoSectionHeader()
         {
+        }
+
+        public GeoSectionHeader(BinaryReader reader, bool bigEndian) : base(reader, bigEndian)
+        {
+        }
+
+        public override GeoCommonHeader ReadFromFile(BinaryReader reader, bool bigEndian)
+        {
+            base.ReadFromFile(reader, bigEndian);
             HashCode = reader.ReadUInt32(bigEndian);
             StartOffset = reader.ReadUInt32(bigEndian);
             EndOffset = reader.ReadUInt32(bigEndian);
+
+            return this;
         }
     }
 }

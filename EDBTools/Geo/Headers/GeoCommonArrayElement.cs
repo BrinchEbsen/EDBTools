@@ -34,13 +34,24 @@ namespace EDBTools.Geo.Headers
         /// </summary>
         public long Address { get; private set; }
 
-        protected GeoCommonArrayElement(BinaryReader reader, bool bigEndian) : base(reader)
+        public GeoCommonArrayElement()
         {
+        }
+
+        public GeoCommonArrayElement(BinaryReader reader, bool bigEndian) : base(reader, bigEndian)
+        {
+        }
+
+        public override GeoCommonHeader ReadFromFile(BinaryReader reader, bool bigEndian)
+        {
+            base.ReadFromFile(reader, bigEndian);
             HashCode = reader.ReadUInt32(bigEndian);
             Section = reader.ReadInt16(bigEndian);
             Debug = reader.ReadInt16(bigEndian);
             Address = reader.ReadUInt32(bigEndian);
             reader.BaseStream.Seek(4, SeekOrigin.Current);
+
+            return this;
         }
     }
 }

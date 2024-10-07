@@ -27,13 +27,21 @@ namespace EDBTools.Geo.Headers
         /// </summary>
         public uint HashCode { get; protected set; }
 
+        public GeoCommonHeader() { }
+
         /// <summary>
         /// Assigns own address to the current stream position of the given <see cref="BinaryReader"/>.
         /// </summary>
         /// <param name="reader">Reader with the stream position set to the start of the header's data.</param>
-        protected GeoCommonHeader(BinaryReader reader)
+        public GeoCommonHeader(BinaryReader reader, bool bigEndian)
+        {
+            ReadFromFile(reader, bigEndian);
+        }
+
+        public virtual GeoCommonHeader ReadFromFile(BinaryReader reader, bool bigEndian)
         {
             HeaderAddress = reader.BaseStream.Position;
+            return this;
         }
     }
 }

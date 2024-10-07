@@ -20,11 +20,22 @@ namespace EDBTools.Geo.Headers
         public uint MipRef { get; private set; }
         public float MipDistance { get; private set; }
 
+        public GeoAnimSkinHeader()
+        {
+        }
+
         public GeoAnimSkinHeader(BinaryReader reader, bool bigEndian) : base(reader, bigEndian)
         {
+        }
+
+        public override GeoCommonHeader ReadFromFile(BinaryReader reader, bool bigEndian)
+        {
+            base.ReadFromFile(reader, bigEndian);
             BaseSkinNum = reader.ReadUInt32(bigEndian);
             MipRef = reader.ReadUInt32(bigEndian);
             MipDistance = reader.ReadSingle(bigEndian);
+
+            return this;
         }
     }
 }

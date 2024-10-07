@@ -20,12 +20,23 @@ namespace EDBTools.Geo.Headers
         public uint GameFlags { get; private set; }
         public uint Flags { get; private set; }
 
+        public GeoTextureHeader()
+        {
+        }
+
         public GeoTextureHeader(BinaryReader reader, bool bigEndian) : base(reader, bigEndian)
         {
+        }
+
+        public override GeoCommonHeader ReadFromFile(BinaryReader reader, bool bigEndian)
+        {
+            base.ReadFromFile(reader, bigEndian);
             Width = reader.ReadUInt16(bigEndian);
             Height = reader.ReadUInt16(bigEndian);
             GameFlags = reader.ReadUInt32(bigEndian);
             Flags = reader.ReadUInt32(bigEndian);
+
+            return this;
         }
     }
 }
