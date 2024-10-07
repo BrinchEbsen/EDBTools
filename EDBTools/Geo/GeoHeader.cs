@@ -1,14 +1,10 @@
 ﻿using Common;
 using EDBTools.Geo;
-using EDBTools.Geo.Headers;
-using EDBTools.HashCodes.Spyro;
 using Extensions;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace EDBTools
 {
@@ -31,7 +27,7 @@ namespace EDBTools
         /// <summary>
         /// HashCode for this file. Section HT_File (0x01XXXXXX).
         /// </summary>
-        public EXHashCode HashCode { get; private set; }
+        public uint HashCode { get; private set; }
 
         /// <summary>
         /// The GeoFile version. Retail Spyro: A Hero's Tail uses version 240.
@@ -123,7 +119,7 @@ namespace EDBTools
                 Marker[i] = (char)reader.ReadByte();
             }
 
-            HashCode = (EXHashCode)reader.ReadUInt32(bigEndian);
+            HashCode = reader.ReadUInt32(bigEndian);
             Version = reader.ReadInt32(bigEndian);
 
             if (!GeoFile.SUPPORTED_VERSIONS.Contains(Version))
@@ -225,7 +221,8 @@ namespace EDBTools
         {
             StringBuilder sb = new StringBuilder();
 
-            sb.AppendLine("Hashcode: " + HashCode.ToString());
+            //Basic info
+            sb.AppendLine(string.Format("HashCode: 0x{0:X}", HashCode));
             sb.AppendLine("Version: " + Version);
             sb.AppendLine(string.Format("Flags: 0x{0:X}", Flags));
             sb.AppendLine("Timestamp: " + GetDateTimeStamp().ToString());
@@ -234,6 +231,7 @@ namespace EDBTools
             sb.AppendLine("Debug section offset: " + DebugSectionOffset);
             sb.AppendLine("Debug section end offset: " + DebugSectionEndOffset);
 
+            //Data arrays
             sb.AppendLine("Section list: " + SectionList.ToString());
             sb.AppendLine("Ref Pointer list: " + RefPointerList.ToString());
             sb.AppendLine("Entity list: " + EntityList.ToString());
