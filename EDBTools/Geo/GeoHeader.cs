@@ -75,33 +75,19 @@ namespace EDBTools
         /* SECTION DESCRIPTORS */
 
         public GeoCommonArray SectionList { get; private set; }
-
         public GeoCommonArray RefPointerList { get; private set; }
-
         public GeoCommonArray EntityList { get; private set; }
-
         public GeoCommonArray AnimList { get; private set; }
-
         public GeoCommonArray AnimSkinList { get; private set; }
-
         public GeoCommonArray ScriptList { get; private set; }
-
         public GeoCommonArray MapList { get; private set; }
-
         public GeoCommonArray AnimModeList { get; private set; }
-
         public GeoCommonArray AnimSetList { get; private set; }
-
         public GeoCommonArray ParticleList { get; private set; }
-
         public GeoCommonArray SwooshList { get; private set; }
-
         public GeoCommonArray SpreadSheetList { get; private set; }
-
         public GeoCommonArray FontList { get; private set; }
-
         public GeoCommonArray TextureList { get; private set; }
-
         public GeoRelArray TextureUpdateList { get; private set; }
 
 
@@ -175,10 +161,17 @@ namespace EDBTools
         {
             if (Marker == null || Versions == null) return null;
 
+            /*
+             * The marker at the start of the file will read "GEOM" if
+             * the file is in big endian, and "MOEG" if little.
+             * 
+             * The first element in the 6 platform version variables will
+             * be 1 if the platform is Xbox, and 0 if not.
+             */
+
+            //Check the marker
             string markerStr = new string(Marker);
-
             bool bigEndian;
-
             switch (markerStr)
             {
                 case "GEOM":
@@ -191,6 +184,7 @@ namespace EDBTools
                     return null;
             }
 
+            //Use the endianness together with the version variables to determine platform
             if (bigEndian && (Versions[0] == 0))
             {
                 return GamePlatform.GameCube;
@@ -225,7 +219,7 @@ namespace EDBTools
             sb.AppendLine(string.Format("HashCode: 0x{0:X}", HashCode));
             sb.AppendLine("Version: " + Version);
             sb.AppendLine(string.Format("Flags: 0x{0:X}", Flags));
-            sb.AppendLine("Timestamp: " + GetDateTimeStamp().ToString());
+            sb.AppendLine("Timestamp: " + GetDateTimeStamp().ToString() ?? "None");
             sb.AppendLine("Filesize: " + FileSize + " bytes");
             sb.AppendLine("Base filesize: " + BaseFileSize + " bytes");
             sb.AppendLine("Debug section offset: " + DebugSectionOffset);

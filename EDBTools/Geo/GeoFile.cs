@@ -21,6 +21,7 @@ namespace EDBTools.Geo
     /// A GeoFile has a header and a list of sections, which can be loaded in pieces by the game
     /// depending on what data is needed.
     /// </para>
+    /// <see href="https://sphinxandthecursedmummy.fandom.com/wiki/EDB"/>
     /// </summary>
     public class GeoFile
     {
@@ -87,31 +88,18 @@ namespace EDBTools.Geo
         /* DATA ARRAY HEADERS */
 
         public List<GeoSectionHeader> SectionHeaders { get; private set; } = new List<GeoSectionHeader>();
-
         public List<RefPointerHeader> RefPointerHeaders { get; private set; } = new List<RefPointerHeader>();
-
         public List<GeoEntityHeader> EntityHeaders { get; private set; } = new List<GeoEntityHeader>();
-
         public List<GeoAnimHeader> AnimHeaders { get; private set; } = new List<GeoAnimHeader>();
-
         public List<GeoAnimSkinHeader> AnimSkinHeaders { get; private set; } = new List<GeoAnimSkinHeader>();
-
         public List<GeoScriptHeader> ScriptHeaders { get; private set; } = new List<GeoScriptHeader>();
-
         public List<GeoMapHeader> MapHeaders { get; private set; } = new List<GeoMapHeader>();
-
         public List<GeoAnimModeHeader> AnimModeHeaders { get; private set; } = new List<GeoAnimModeHeader>();
-
         public List<GeoAnimSetHeader> AnimSetHeaders { get; private set; } = new List<GeoAnimSetHeader>();
-
         public List<GeoParticleHeader> ParticleHeaders { get; private set; } = new List<GeoParticleHeader>();
-
         public List<GeoSwooshHeader> SwooshHeaders { get; private set; } = new List<GeoSwooshHeader>();
-
         public List<GeoSpreadSheetHeader> SpreadSheetHeaders { get; private set; } = new List<GeoSpreadSheetHeader>();
-
         public List<GeoFontHeader> FontHeaders { get; private set; } = new List<GeoFontHeader>();
-
         public List<GeoTextureHeader> TextureHeaders { get; private set; } = new List<GeoTextureHeader>();
 
 
@@ -255,7 +243,7 @@ namespace EDBTools.Geo
                 reader.BaseStream.Seek(addr, SeekOrigin.Begin);
                 GeoCommonHeader header = new T();
                 list.Insert(i, header.ReadFromFile(reader, bigEndian) as T);
-                addr += list[i].HEADER_SIZE;
+                addr += header.HEADER_SIZE;
             }
 
             return list;
@@ -275,8 +263,8 @@ namespace EDBTools.Geo
                 default: platformStr = "Unknown"; break;
             }
 
-            sb.AppendLine(string.Format("GeoFile v{0} | {1} | {2}",
-                GeoHeader.Version, GeoHeader.HashCode.ToString(), platformStr));
+            sb.AppendLine(string.Format("GeoFile v{0} | {1:X} | {2}",
+                GeoHeader.Version, GeoHeader.HashCode, platformStr));
             sb.AppendLine();
 
             sb.AppendLine("HEADER:");

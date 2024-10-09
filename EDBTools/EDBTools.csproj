@@ -63,6 +63,7 @@
     <Compile Include="Geo\Headers\GeoEntityHeader.cs" />
     <Compile Include="Geo\Headers\GeoSectionHeader.cs" />
     <Compile Include="Geo\Headers\RefPointerHeader.cs" />
+    <Compile Include="Geo\SpreadSheet\SpreadSheetTypes.cs" />
     <Compile Include="HashCodes\Spyro\HashCodes.cs" />
     <Compile Include="HashCodes\Spyro\Sound.cs" />
   </ItemGroup>

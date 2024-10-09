@@ -13,7 +13,7 @@ namespace EDBToolsTest
             {
                 using (BinaryReader reader = new BinaryReader(File.OpenRead(line)))
                 {
-                    GeoFile geoFile = new GeoFile(reader);
+                    GeoFile geoFile = new(reader);
                     Console.WriteLine(geoFile.ToString());
                 }
             }
