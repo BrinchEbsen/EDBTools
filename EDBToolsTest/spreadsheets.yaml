@@ -1,0 +1,18 @@
+0x01000050: # HT_File_GameInfo
+    0x14000028: # HT_SpreadSheet_GameInfo
+        0: # Collectable max tallies for each map
+            row_size: 8
+            columns:
+                - { name: MapGeoHash,    type: hashcode }
+                - { name: MaxDarkGems,   type: u8 }
+                - { name: MaxDragonEggs, type: u8 }
+                - { name: MaxLightGems,  type: u8 }
+        1: # Initial values the PlayerState
+            row_size: 6
+            columns:
+                - { name: ElemID, type: u8 }
+                - { name: Data_1, type: s8 }
+                - { name: Data_2, type: s8 }
+                - { name: Data_3, type: s8 }
+                - { name: Data_4, type: s8 }
+                - { name: Data_5, type: s8 }

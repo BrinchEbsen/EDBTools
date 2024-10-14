@@ -37,6 +37,7 @@
   </PropertyGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Common\GamePlatform.cs" />
@@ -63,10 +64,22 @@
     <Compile Include="Geo\Headers\GeoEntityHeader.cs" />
     <Compile Include="Geo\Headers\GeoSectionHeader.cs" />
     <Compile Include="Geo\Headers\RefPointerHeader.cs" />
+    <Compile Include="Geo\SpreadSheet\DataSheet.cs" />
+    <Compile Include="Geo\SpreadSheet\DataSheetCell.cs" />
+    <Compile Include="Geo\SpreadSheet\GeoDataSpreadSheet.cs" />
+    <Compile Include="Geo\SpreadSheet\Serialization\DataSheetFormat.cs" />
+    <Compile Include="Geo\SpreadSheet\Serialization\SpreadSheetCollectionFormat.cs" />
+    <Compile Include="Geo\SpreadSheet\Serialization\SpreadSheetGeoFileFormat.cs" />
+    <Compile Include="Geo\SpreadSheet\SpreadSheetDataTypes.cs" />
+    <Compile Include="Geo\SpreadSheet\Serialization\SpreadSheetFormat.cs" />
     <Compile Include="Geo\SpreadSheet\SpreadSheetTypes.cs" />
     <Compile Include="HashCodes\Spyro\HashCodes.cs" />
     <Compile Include="HashCodes\Spyro\Sound.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Reference Include="YamlDotNet, Version=16.0.0.0, Culture=neutral, PublicKeyToken=ec19458f3c15af5e, processorArchitecture=MSIL">
+      <HintPath>..\packages\YamlDotNet.16.1.3\lib\net47\YamlDotNet.dll</HintPath>
+    </Reference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

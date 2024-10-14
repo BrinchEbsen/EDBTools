@@ -118,7 +118,7 @@ namespace EDBTools.Geo
 
             //Get platform
 
-            GeoHeader = new GeoHeader(reader, endian.Value);
+            GeoHeader = new GeoHeader(reader, BigEndian);
             GamePlatform? platform = GeoHeader.TestPlatform();
             if (!platform.HasValue)
                 throw new IOException("Indeterminate game platform for the GeoFile supplied to the reader.");
@@ -126,42 +126,47 @@ namespace EDBTools.Geo
 
             //Read data array hashcodes:
 
-            PopulateHeaderHashCodeList(GeoSectionHashCodes,  GeoHeader.SectionList,     reader, endian.Value);
-            PopulateHeaderHashCodeList(RefPointerHashCodes,  GeoHeader.RefPointerList,  reader, endian.Value);
-            PopulateHeaderHashCodeList(EntityHashCodes,      GeoHeader.EntityList,      reader, endian.Value);
-            PopulateHeaderHashCodeList(AnimHashCodes,        GeoHeader.AnimList,        reader, endian.Value);
-            PopulateHeaderHashCodeList(AnimSkinHashCodes,    GeoHeader.AnimSkinList,    reader, endian.Value);
-            PopulateHeaderHashCodeList(ScriptHashCodes,      GeoHeader.ScriptList,      reader, endian.Value);
-            PopulateHeaderHashCodeList(MapHashCodes,         GeoHeader.MapList,         reader, endian.Value);
-            PopulateHeaderHashCodeList(AnimModeHashCodes,    GeoHeader.AnimModeList,    reader, endian.Value);
-            PopulateHeaderHashCodeList(AnimSetHashCodes,     GeoHeader.AnimSetList,     reader, endian.Value);
-            PopulateHeaderHashCodeList(ParticleHashCodes,    GeoHeader.ParticleList,    reader, endian.Value);
-            PopulateHeaderHashCodeList(SwooshHashCodes,      GeoHeader.SwooshList,      reader, endian.Value);
-            PopulateHeaderHashCodeList(SpreadSheetHashCodes, GeoHeader.SpreadSheetList, reader, endian.Value);
-            PopulateHeaderHashCodeList(FontHashCodes,        GeoHeader.FontList,        reader, endian.Value);
-            PopulateHeaderHashCodeList(TextureHashCodes,     GeoHeader.TextureList,     reader, endian.Value);
+            PopulateHeaderHashCodeList(GeoSectionHashCodes,  GeoHeader.SectionList,     reader, BigEndian);
+            PopulateHeaderHashCodeList(RefPointerHashCodes,  GeoHeader.RefPointerList,  reader, BigEndian);
+            PopulateHeaderHashCodeList(EntityHashCodes,      GeoHeader.EntityList,      reader, BigEndian);
+            PopulateHeaderHashCodeList(AnimHashCodes,        GeoHeader.AnimList,        reader, BigEndian);
+            PopulateHeaderHashCodeList(AnimSkinHashCodes,    GeoHeader.AnimSkinList,    reader, BigEndian);
+            PopulateHeaderHashCodeList(ScriptHashCodes,      GeoHeader.ScriptList,      reader, BigEndian);
+            PopulateHeaderHashCodeList(MapHashCodes,         GeoHeader.MapList,         reader, BigEndian);
+            PopulateHeaderHashCodeList(AnimModeHashCodes,    GeoHeader.AnimModeList,    reader, BigEndian);
+            PopulateHeaderHashCodeList(AnimSetHashCodes,     GeoHeader.AnimSetList,     reader, BigEndian);
+            PopulateHeaderHashCodeList(ParticleHashCodes,    GeoHeader.ParticleList,    reader, BigEndian);
+            PopulateHeaderHashCodeList(SwooshHashCodes,      GeoHeader.SwooshList,      reader, BigEndian);
+            PopulateHeaderHashCodeList(SpreadSheetHashCodes, GeoHeader.SpreadSheetList, reader, BigEndian);
+            PopulateHeaderHashCodeList(FontHashCodes,        GeoHeader.FontList,        reader, BigEndian);
+            PopulateHeaderHashCodeList(TextureHashCodes,     GeoHeader.TextureList,     reader, BigEndian);
 
             //Read data arrays:
 
-            PopulateHeaderList<GeoSectionHeader>    (SectionHeaders,     GeoHeader.SectionList,     reader, endian.Value);
-            PopulateHeaderList<RefPointerHeader>    (RefPointerHeaders,  GeoHeader.RefPointerList,  reader, endian.Value);
-            PopulateHeaderList<GeoEntityHeader>     (EntityHeaders,      GeoHeader.EntityList,      reader, endian.Value);
-            PopulateHeaderList<GeoAnimHeader>       (AnimHeaders,        GeoHeader.AnimList,        reader, endian.Value);
-            PopulateHeaderList<GeoAnimSkinHeader>   (AnimSkinHeaders,    GeoHeader.AnimSkinList,    reader, endian.Value);
-            PopulateHeaderList<GeoScriptHeader>     (ScriptHeaders,      GeoHeader.ScriptList,      reader, endian.Value);
-            PopulateHeaderList<GeoMapHeader>        (MapHeaders,         GeoHeader.MapList,         reader, endian.Value);
-            PopulateHeaderList<GeoAnimModeHeader>   (AnimModeHeaders,    GeoHeader.AnimModeList,    reader, endian.Value);
-            PopulateHeaderList<GeoAnimSetHeader>    (AnimSetHeaders,     GeoHeader.AnimSetList,     reader, endian.Value);
-            PopulateHeaderList<GeoParticleHeader>   (ParticleHeaders,    GeoHeader.ParticleList,    reader, endian.Value);
-            PopulateHeaderList<GeoSwooshHeader>     (SwooshHeaders,      GeoHeader.SwooshList,      reader, endian.Value);
-            PopulateHeaderList<GeoSpreadSheetHeader>(SpreadSheetHeaders, GeoHeader.SpreadSheetList, reader, endian.Value);
-            PopulateHeaderList<GeoFontHeader>       (FontHeaders,        GeoHeader.FontList,        reader, endian.Value);
-            PopulateHeaderList<GeoTextureHeader>    (TextureHeaders,     GeoHeader.TextureList,     reader, endian.Value);
+            PopulateHeaderList<GeoSectionHeader>    (SectionHeaders,     GeoHeader.SectionList,     reader, BigEndian);
+            PopulateHeaderList<RefPointerHeader>    (RefPointerHeaders,  GeoHeader.RefPointerList,  reader, BigEndian);
+            PopulateHeaderList<GeoEntityHeader>     (EntityHeaders,      GeoHeader.EntityList,      reader, BigEndian);
+            PopulateHeaderList<GeoAnimHeader>       (AnimHeaders,        GeoHeader.AnimList,        reader, BigEndian);
+            PopulateHeaderList<GeoAnimSkinHeader>   (AnimSkinHeaders,    GeoHeader.AnimSkinList,    reader, BigEndian);
+            PopulateHeaderList<GeoScriptHeader>     (ScriptHeaders,      GeoHeader.ScriptList,      reader, BigEndian);
+            PopulateHeaderList<GeoMapHeader>        (MapHeaders,         GeoHeader.MapList,         reader, BigEndian);
+            PopulateHeaderList<GeoAnimModeHeader>   (AnimModeHeaders,    GeoHeader.AnimModeList,    reader, BigEndian);
+            PopulateHeaderList<GeoAnimSetHeader>    (AnimSetHeaders,     GeoHeader.AnimSetList,     reader, BigEndian);
+            PopulateHeaderList<GeoParticleHeader>   (ParticleHeaders,    GeoHeader.ParticleList,    reader, BigEndian);
+            PopulateHeaderList<GeoSwooshHeader>     (SwooshHeaders,      GeoHeader.SwooshList,      reader, BigEndian);
+            PopulateHeaderList<GeoSpreadSheetHeader>(SpreadSheetHeaders, GeoHeader.SpreadSheetList, reader, BigEndian);
+            PopulateHeaderList<GeoFontHeader>       (FontHeaders,        GeoHeader.FontList,        reader, BigEndian);
+            PopulateHeaderList<GeoTextureHeader>    (TextureHeaders,     GeoHeader.TextureList,     reader, BigEndian);
         }
 
 
 
         /* METHODS */
+
+        public void ReadSpreadSheets()
+        {
+            throw new NotImplementedException();
+        }
 
         /// <summary>
         /// Read the marker file on the GeoFile and determine the endianness it was encoded with.
@@ -174,22 +179,25 @@ namespace EDBTools.Geo
             //Store original stream position so it can be restored later.
             long originalPos = 0;
 
+            //Seek to start of file
             if (reader.BaseStream.Position != 0)
             {
                 originalPos = reader.BaseStream.Position;
                 reader.BaseStream.Seek(0, SeekOrigin.Begin);
             }
 
+            //Read 4-byte marker
             char[] marker = new char[4];
             for (int i = 0; i < 4; i++)
             {
                 marker[i] = (char)reader.ReadByte();
             }
 
+            //seek back to original position
             reader.BaseStream.Seek(originalPos, SeekOrigin.Begin);
 
+            //Test if marker reads "GEOM" (big endian) or the reverse, "MOEG" (little endian).
             string markerStr = new string(marker);
-
             switch (markerStr)
             {
                 case "GEOM":
