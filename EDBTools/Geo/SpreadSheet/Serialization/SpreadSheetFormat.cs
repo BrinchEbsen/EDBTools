@@ -10,6 +10,7 @@ namespace EDBTools.Geo.SpreadSheet.Serialization
 {
     public class SpreadSheetFormat
     {
-        public Dictionary<int, DataSheetFormat> Sheets { get; set; }
+        //sheet number, data sheet
+        public Dictionary<int, DataSheetFormat> Sheets { get; set; } = new Dictionary<int, DataSheetFormat>();
     }
 }

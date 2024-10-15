@@ -68,11 +68,14 @@
     <Compile Include="Geo\SpreadSheet\DataSheetCell.cs" />
     <Compile Include="Geo\SpreadSheet\GeoDataSpreadSheet.cs" />
     <Compile Include="Geo\SpreadSheet\Serialization\DataSheetFormat.cs" />
+    <Compile Include="Geo\SpreadSheet\Serialization\SheetBitFieldFormat.cs" />
     <Compile Include="Geo\SpreadSheet\Serialization\SpreadSheetCollectionFormat.cs" />
     <Compile Include="Geo\SpreadSheet\Serialization\SpreadSheetGeoFileFormat.cs" />
     <Compile Include="Geo\SpreadSheet\SpreadSheetDataTypes.cs" />
     <Compile Include="Geo\SpreadSheet\Serialization\SpreadSheetFormat.cs" />
     <Compile Include="Geo\SpreadSheet\SpreadSheetTypes.cs" />
+    <Compile Include="Geo\SpreadSheet\SpreadSheetYamlParser.cs" />
+    <Compile Include="Geo\SpreadSheet\SpreadSheetYamlParser_old.cs" />
     <Compile Include="HashCodes\Spyro\HashCodes.cs" />
     <Compile Include="HashCodes\Spyro\Sound.cs" />
   </ItemGroup>

@@ -8,6 +8,7 @@ namespace EDBTools.Geo.SpreadSheet.Serialization
 {
     public class SpreadSheetGeoFileFormat
     {
-        public Dictionary<uint, SpreadSheetFormat> SpreadSheets { get; set; }
+        //spreadsheet hashcode, spreadsheet
+        public Dictionary<uint, SpreadSheetFormat> SpreadSheets { get; set; } = new Dictionary<uint, SpreadSheetFormat>();
     }
 }
