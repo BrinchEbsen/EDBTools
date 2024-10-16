@@ -78,8 +78,11 @@ namespace EDBTools.Geo.SpreadSheet
             foreach (var column in columnsRoot.Children.Cast<YamlMappingNode>())
             {
                 output.Columns.Add(
-                    ((YamlScalarNode)column.Children[new YamlScalarNode("name")]).Value,
-                    ((YamlScalarNode)column.Children[new YamlScalarNode("type")]).Value
+                    new DataSheetColumnFormat()
+                    {
+                        Name = ((YamlScalarNode)column.Children[new YamlScalarNode("name")]).Value,
+                        Type = ((YamlScalarNode)column.Children[new YamlScalarNode("type")]).Value
+                    }
                 );
             }
 
@@ -110,8 +113,11 @@ namespace EDBTools.Geo.SpreadSheet
             foreach (var bit in bitsRoot.Children.Cast<YamlMappingNode>())
             {
                 output.Bits.Add(
-                    int.Parse(((YamlScalarNode)bit.Children[new YamlScalarNode("num")]).Value),
-                    ((YamlScalarNode)bit.Children[new YamlScalarNode("name")]).Value
+                    new DataSheetBitColumnFormat()
+                    {
+                        Num = int.Parse(((YamlScalarNode)bit.Children[new YamlScalarNode("num")]).Value),
+                        Name = ((YamlScalarNode)bit.Children[new YamlScalarNode("name")]).Value
+                    }
                 );
             }
 

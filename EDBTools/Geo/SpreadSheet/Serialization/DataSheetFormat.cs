@@ -9,8 +9,7 @@ namespace EDBTools.Geo.SpreadSheet.Serialization
     public class DataSheetFormat
     {
         public int RowSize { get; set; }
-        //name, type
-        public Dictionary<string, string> Columns { get; set; } = new Dictionary<string, string>();
+        public List<DataSheetColumnFormat> Columns { get; set; } = new List<DataSheetColumnFormat>();
         public List<SheetBitFieldFormat> BitFields { get; set; } = new List<SheetBitFieldFormat>();
     }
 }

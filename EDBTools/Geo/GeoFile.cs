@@ -1,5 +1,7 @@
 ﻿using Common;
 using EDBTools.Geo.Headers;
+using EDBTools.Geo.SpreadSheet;
+using EDBTools.Geo.SpreadSheet.Serialization;
 using Extensions;
 using System;
 using System.Collections.Generic;
@@ -104,6 +106,12 @@ namespace EDBTools.Geo
 
 
 
+        /* DATA */
+
+        public List<BaseSpreadSheet> SpreadSheets { get; private set; }
+
+
+
         /* CONSTRUCTORS */
 
         public GeoFile(BinaryReader reader)
@@ -163,9 +171,47 @@ namespace EDBTools.Geo
 
         /* METHODS */
 
-        public void ReadSpreadSheets()
+        public List<BaseSpreadSheet> ReadSpreadSheets(BinaryReader reader, bool bigEndian)
         {
-            throw new NotImplementedException();
+            return ReadSpreadSheets(reader, bigEndian, (SpreadSheetGeoFileFormat)null);
+        }
+
+        public List<BaseSpreadSheet> ReadSpreadSheets(BinaryReader reader, bool bigEndian, SpreadSheetCollectionFormat format)
+        {
+            SpreadSheetGeoFileFormat sheetFmt = null;
+            if (format.GeoFiles.ContainsKey(GeoHeader.HashCode))
+            {
+                sheetFmt = format.GeoFiles[GeoHeader.HashCode];
+            }
+
+            return ReadSpreadSheets(reader, bigEndian, sheetFmt);
+        }
+
+        public List<BaseSpreadSheet> ReadSpreadSheets(BinaryReader reader, bool bigEndian, SpreadSheetGeoFileFormat format)
+        {
+            SpreadSheets = new List<BaseSpreadSheet> ();
+
+            if (SpreadSheetHeaders.Count == 0) { return SpreadSheets; }
+
+            foreach(var header in SpreadSheetHeaders)
+            {
+                if (header.Type == SpreadSheetTypes.SHEET_TYPE_DATA)
+                {
+                    //Assign format for this sheet if it exists
+                    SpreadSheetFormat sheetFormat = null;
+                    if (format.SpreadSheets.ContainsKey(header.HashCode))
+                    {
+                        sheetFormat = format.SpreadSheets[header.HashCode];
+                    }
+
+                    GeoDataSpreadSheet sheet = new GeoDataSpreadSheet();
+                    sheet.ReadFromFile(reader, bigEndian, header, sheetFormat);
+                    SpreadSheets.Add(sheet);
+                }
+            }
+
+
+            return SpreadSheets;
         }
 
         /// <summary>

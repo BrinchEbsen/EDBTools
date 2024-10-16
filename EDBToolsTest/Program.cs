@@ -8,7 +8,7 @@ namespace EDBToolsTest
     {
         static void Main(string[] args)
         {
-            SpreadSheetCollectionFormat format = new()
+            SpreadSheetCollectionFormat generateFormat = new()
             {
                 GeoFiles = new Dictionary<uint, SpreadSheetGeoFileFormat>
                 {
@@ -29,13 +29,13 @@ namespace EDBToolsTest
                                                 new DataSheetFormat()
                                                 {
                                                     RowSize = 8,
-                                                    Columns = new Dictionary<string, string>
-                                                    {
-                                                        { "MapGeoHash", "hashcode" },
-                                                        { "MaxDarkGems", "u8" },
-                                                        { "MaxDragonEggs", "u8" },
-                                                        { "MaxLightGems", "u8" }
-                                                    }
+                                                    Columns =
+                                                    [
+                                                        new() { Name = "MapGeoHash",    Type = "hashcode" },
+                                                        new() { Name = "MaxDarkGems",   Type = "u8" },
+                                                        new() { Name = "MaxDragonEggs", Type = "u8" },
+                                                        new() { Name = "MaxLightGems",  Type = "u8" }
+                                                    ]
                                                 }
                                             },
                                             {
@@ -43,14 +43,14 @@ namespace EDBToolsTest
                                                 new DataSheetFormat()
                                                 {
                                                     RowSize = 6,
-                                                    Columns = new Dictionary<string, string>
+                                                    Columns =
                                                     {
-                                                        { "ElemID", "u8" },
-                                                        { "Data_1", "u8" },
-                                                        { "Data_2", "u8" },
-                                                        { "Data_3", "u8" },
-                                                        { "Data_4", "u8" },
-                                                        { "Data_5", "u8" }
+                                                        new() { Name = "ElemID",    Type = "u8" },
+                                                        new() { Name = "Data_1",    Type = "u8" },
+                                                        new() { Name = "Data_2",    Type = "u8" },
+                                                        new() { Name = "Data_3",    Type = "u8" },
+                                                        new() { Name = "Data_4",    Type = "u8" },
+                                                        new() { Name = "Data_5",    Type = "u8" }
                                                     }
                                                 }
                                             }
@@ -68,30 +68,30 @@ namespace EDBToolsTest
                                                 new DataSheetFormat()
                                                 {
                                                     RowSize = 6,
-                                                    Columns = new Dictionary<string, string>
+                                                    Columns =
                                                     {
-                                                        { "Col1", "u32" },
-                                                        { "Col2", "bitfield_u32" },
-                                                        { "Col3", "bitfield_u32" }
+                                                        new() { Name = "Col1", Type = "u32" },
+                                                        new() { Name = "Col2", Type = "bitfield_u32" },
+                                                        new() { Name = "Col3", Type = "bitfield_u32" }
                                                     },
                                                     BitFields =
                                                     [
                                                         new()
                                                         {
                                                             FieldName = "Col2",
-                                                            Bits = new Dictionary<int, string>
+                                                            Bits =
                                                             {
-                                                                { 0, "MyFirstBit" },
-                                                                { 1, "MySecondBit" }
+                                                                new() { Num = 0, Name = "MyFirstBit" },
+                                                                new() { Num = 1, Name = "MySecondBit" }
                                                             }
                                                         },
                                                         new()
                                                         {
                                                             FieldName = "Col3",
-                                                            Bits = new Dictionary<int, string>
+                                                            Bits =
                                                             {
-                                                                { 2, "MyThirdBit" },
-                                                                { 3, "MyFourthBit" }
+                                                                new() { Num = 2, Name = "MyThirdBit" },
+                                                                new() { Num = 3, Name = "MyFourthBit" }
                                                             }
                                                         }
                                                     ]
@@ -105,11 +105,13 @@ namespace EDBToolsTest
                     }
                 }
             };
+            Console.WriteLine(SpreadSheetYamlParser.FormatToYaml(generateFormat));
 
-            string yaml = SpreadSheetYamlParser.FormatToYaml(format);
+            Console.Write("SpreadSheet YAML: ");
+            string spreadSheetYaml = File.ReadAllText(Console.ReadLine());
+            SpreadSheetCollectionFormat format = SpreadSheetYamlParser.YamlToFormat(spreadSheetYaml);
 
-            SpreadSheetCollectionFormat newFormat = SpreadSheetYamlParser.YamlToFormat(doc);
-
+            Console.Write("GeoFile: ");
             string? line = Console.ReadLine();
             if (line == null) { return; }
 
@@ -118,6 +120,7 @@ namespace EDBToolsTest
                 using (BinaryReader reader = new(File.OpenRead(line)))
                 {
                     GeoFile geoFile = new(reader);
+                    geoFile.ReadSpreadSheets(reader, geoFile.BigEndian, generateFormat);
                     Console.WriteLine(geoFile.ToString());
                 }
             }
@@ -125,7 +128,7 @@ namespace EDBToolsTest
             Console.ReadLine();
         }
 
-        static readonly string doc = @"geo_files:
+        static readonly string testYaml = @"geo_files:
   0x01000050:
     spread_sheets:
       0x14000028:

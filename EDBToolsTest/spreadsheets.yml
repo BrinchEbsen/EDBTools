@@ -1,0 +1,57 @@
+geo_files:
+  0x01000050:
+    spread_sheets:
+      0x14000028:
+        sheets:
+          0:
+            row_size: 8
+            columns:
+            - name: MapGeoHash
+              type: hashcode
+            - name: MaxDarkGems
+              type: u8
+            - name: MaxDragonEggs
+              type: u8
+            - name: MaxLightGems
+              type: u8
+            bit_fields: []
+          1:
+            row_size: 6
+            columns:
+            - name: ElemID
+              type: u8
+            - name: Data_1
+              type: u8
+            - name: Data_2
+              type: u8
+            - name: Data_3
+              type: u8
+            - name: Data_4
+              type: u8
+            - name: Data_5
+              type: u8
+            bit_fields: []
+      69:
+        sheets:
+          0:
+            row_size: 6
+            columns:
+            - name: Col1
+              type: u32
+            - name: Col2
+              type: bitfield_u32
+            - name: Col3
+              type: bitfield_u32
+            bit_fields:
+            - field_name: Col2
+              bits:
+              - num: 0
+                name: MyFirstBit
+              - num: 1
+                name: MySecondBit
+            - field_name: Col3
+              bits:
+              - num: 2
+                name: MyThirdBit
+              - num: 3
+                name: MyFourthBit

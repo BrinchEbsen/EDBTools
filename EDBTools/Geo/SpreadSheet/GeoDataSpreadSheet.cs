@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace EDBTools.Geo.SpreadSheet
 {
-    public class GeoDataSpreadSheet
+    public class GeoDataSpreadSheet : BaseSpreadSheet
     {
         public long Address { get; private set; }
         public int NumDataSheets { get; private set; }
@@ -22,7 +22,7 @@ namespace EDBTools.Geo.SpreadSheet
 
         public GeoDataSpreadSheet()
         {
-            
+            this.Type = SpreadSheetTypes.SHEET_TYPE_DATA;
         }
 
         public GeoDataSpreadSheet ReadFromFile(BinaryReader reader, bool bigEndian, GeoSpreadSheetHeader header)
@@ -32,11 +32,18 @@ namespace EDBTools.Geo.SpreadSheet
 
         public GeoDataSpreadSheet ReadFromFile(BinaryReader reader, bool bigEndian, GeoSpreadSheetHeader header, SpreadSheetFormat format)
         {
+            //Check that the type matches before reading
+            if (header.Type != this.Type)
+            {
+                throw new ArgumentException("Spreadsheet type mismatch: This method reads spreadsheets of type " + this.Type +
+                    " - supplied header is for spreadsheet of type " + header.Type + ".");
+            }
+
             //Seek to start of data
             reader.BaseStream.Seek(header.Address, SeekOrigin.Begin);
             this.Address = header.Address;
 
-            //Read data sheet offsets
+            //Read data sheet pointers
             NumDataSheets = reader.ReadInt32(bigEndian);
 
             if (NumDataSheets == 0) { return this; }
@@ -46,6 +53,7 @@ namespace EDBTools.Geo.SpreadSheet
                 DataSheetsOffsets.Add(new RelPtr(reader, bigEndian));
             }
 
+            //If we've got a format supplied, read the spreadsheet data
             if (format != null)
             {
                 ReadDataSheets(reader, bigEndian, format);
@@ -60,11 +68,13 @@ namespace EDBTools.Geo.SpreadSheet
             {
                 if (!format.Sheets.ContainsKey(i))
                 {
-                    throw new IOException("Could not read data sheet, because the format does not specify anything for sheet with index " + i);
+                    throw new IOException("Could not read data sheet, because the format does not specify anything for sheet with index " + i + ".");
                 }
 
+                //Seek to start of sheet data
                 long addr = DataSheetsOffsets[i].AbsoluteAddress;
                 reader.BaseStream.Seek(addr, SeekOrigin.Begin);
+                //Read sheet
                 DataSheets.Add(new DataSheet(reader, bigEndian, format.Sheets[i]));
             }
         }

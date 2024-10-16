@@ -29,10 +29,10 @@ namespace EDBTools.Geo.Headers
         public override GeoCommonHeader ReadFromFile(BinaryReader reader, bool bigEndian)
         {
             base.ReadFromFile(reader, bigEndian);
-            uint type = reader.ReadUInt32();
+            int type = reader.ReadInt32(bigEndian);
             if (Enum.IsDefined(typeof(SpreadSheetTypes), type))
             {
-                Type = (SpreadSheetTypes)reader.ReadUInt32(bigEndian);
+                Type = (SpreadSheetTypes)type;
             } else
             {
                 throw new IOException("Error reading spreadsheet header: Unknown spreadsheet type: " + type);

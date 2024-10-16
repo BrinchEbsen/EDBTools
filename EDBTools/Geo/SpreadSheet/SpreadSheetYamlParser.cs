@@ -14,10 +14,7 @@ namespace EDBTools.Geo.SpreadSheet
         public static string FormatToYaml(SpreadSheetCollectionFormat format)
         {
             var serializer = new SerializerBuilder().WithNamingConvention(UnderscoredNamingConvention.Instance).Build();
-            var yaml = serializer.Serialize(format);
-            Console.WriteLine(yaml);
-
-            return yaml;
+            return serializer.Serialize(format);
         }
 
         public static SpreadSheetCollectionFormat YamlToFormat(string yaml)

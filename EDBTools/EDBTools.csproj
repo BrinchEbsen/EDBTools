@@ -64,9 +64,12 @@
     <Compile Include="Geo\Headers\GeoEntityHeader.cs" />
     <Compile Include="Geo\Headers\GeoSectionHeader.cs" />
     <Compile Include="Geo\Headers\RefPointerHeader.cs" />
+    <Compile Include="Geo\SpreadSheet\BaseSpreadSheet.cs" />
     <Compile Include="Geo\SpreadSheet\DataSheet.cs" />
     <Compile Include="Geo\SpreadSheet\DataSheetCell.cs" />
     <Compile Include="Geo\SpreadSheet\GeoDataSpreadSheet.cs" />
+    <Compile Include="Geo\SpreadSheet\Serialization\DataSheetBitColumnFormat.cs" />
+    <Compile Include="Geo\SpreadSheet\Serialization\DataSheetColumnFormat.cs" />
     <Compile Include="Geo\SpreadSheet\Serialization\DataSheetFormat.cs" />
     <Compile Include="Geo\SpreadSheet\Serialization\SheetBitFieldFormat.cs" />
     <Compile Include="Geo\SpreadSheet\Serialization\SpreadSheetCollectionFormat.cs" />
