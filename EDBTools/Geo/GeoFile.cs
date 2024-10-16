@@ -204,7 +204,7 @@ namespace EDBTools.Geo
                         sheetFormat = format.SpreadSheets[header.HashCode];
                     }
 
-                    GeoDataSpreadSheet sheet = new GeoDataSpreadSheet();
+                    GeoDataSpreadSheet sheet = new GeoDataSpreadSheet(header.HashCode);
                     sheet.ReadFromFile(reader, bigEndian, header, sheetFormat);
                     SpreadSheets.Add(sheet);
                 }

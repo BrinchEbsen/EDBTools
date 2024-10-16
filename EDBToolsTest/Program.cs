@@ -19,6 +19,45 @@ namespace EDBToolsTest
                             SpreadSheets = new Dictionary<uint, SpreadSheetFormat>
                             {
                                 {
+                                    0x14000005,
+                                    new SpreadSheetFormat()
+                                    {
+                                        Sheets = new Dictionary<int, DataSheetFormat>
+                                        {
+                                            {
+                                                0,
+                                                new DataSheetFormat()
+                                                {
+                                                    RowSize = 8,
+                                                    Columns =
+                                                    [
+                                                        new() { Name = "MapGeoHash",    Type = "hashcode" },
+                                                        new() { Name = "MaxDarkGems",   Type = "u8" },
+                                                        new() { Name = "MaxDragonEggs", Type = "u8" },
+                                                        new() { Name = "MaxLightGems",  Type = "u8" }
+                                                    ]
+                                                }
+                                            },
+                                            {
+                                                1,
+                                                new DataSheetFormat()
+                                                {
+                                                    RowSize = 6,
+                                                    Columns =
+                                                    {
+                                                        new() { Name = "ElemID",    Type = "u8" },
+                                                        new() { Name = "Data_1",    Type = "u8" },
+                                                        new() { Name = "Data_2",    Type = "u8" },
+                                                        new() { Name = "Data_3",    Type = "u8" },
+                                                        new() { Name = "Data_4",    Type = "u8" },
+                                                        new() { Name = "Data_5",    Type = "u8" }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                },
+                                {
                                     0x14000028,
                                     new SpreadSheetFormat()
                                     {
@@ -120,52 +159,17 @@ namespace EDBToolsTest
                 using (BinaryReader reader = new(File.OpenRead(line)))
                 {
                     GeoFile geoFile = new(reader);
-                    geoFile.ReadSpreadSheets(reader, geoFile.BigEndian, generateFormat);
+                    geoFile.ReadSpreadSheets(reader, geoFile.BigEndian, format);
                     Console.WriteLine(geoFile.ToString());
+
+                    foreach(BaseSpreadSheet spreadSheet in geoFile.SpreadSheets)
+                    {
+                        Console.WriteLine(spreadSheet.ToString());
+                    }
                 }
             }
 
             Console.ReadLine();
         }
-
-        static readonly string testYaml = @"geo_files:
-  0x01000050:
-    spread_sheets:
-      0x14000028:
-        sheets:
-          0:
-            row_size: 8
-            columns:
-              MapGeoHash: hashcode
-              MaxDarkGems: u8
-              MaxDragonEggs: u8
-              MaxLightGems: u8
-            bit_fields: []
-          1:
-            row_size: 6
-            columns:
-              ElemID: u8
-              Data_1: u8
-              Data_2: u8
-              Data_3: u8
-              Data_4: u8
-              Data_5: u8
-            bit_fields: []
-      69:
-        sheets:
-          0:
-            row_size: 6
-            columns:
-              Col1: u32
-              Col2: bitfield_u32
-              Col3: bitfield_u32
-            bit_fields:
-            - field_name: Col2
-              bits:
-                0: MyFirstBit
-                1: MySecondBit
-            - field_name: Col3
-              bits:
-                2: MyThirdBit";
     }
 }

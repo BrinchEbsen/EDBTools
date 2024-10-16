@@ -15,14 +15,18 @@ namespace EDBTools.Geo.SpreadSheet
     public class GeoDataSpreadSheet : BaseSpreadSheet
     {
         public long Address { get; private set; }
+        public uint HashCode { get; private set; }
         public int NumDataSheets { get; private set; }
         public List<RelPtr> DataSheetsOffsets { get; private set; } = new List<RelPtr>();
 
+        public SpreadSheetFormat Format { get; private set; }
+
         public List<DataSheet> DataSheets { get; private set; } = new List<DataSheet>();
 
-        public GeoDataSpreadSheet()
+        public GeoDataSpreadSheet(uint hashCode)
         {
             this.Type = SpreadSheetTypes.SHEET_TYPE_DATA;
+            HashCode = hashCode;
         }
 
         public GeoDataSpreadSheet ReadFromFile(BinaryReader reader, bool bigEndian, GeoSpreadSheetHeader header)
@@ -43,6 +47,8 @@ namespace EDBTools.Geo.SpreadSheet
             reader.BaseStream.Seek(header.Address, SeekOrigin.Begin);
             this.Address = header.Address;
 
+            this.Format = format;
+
             //Read data sheet pointers
             NumDataSheets = reader.ReadInt32(bigEndian);
 
@@ -54,7 +60,7 @@ namespace EDBTools.Geo.SpreadSheet
             }
 
             //If we've got a format supplied, read the spreadsheet data
-            if (format != null)
+            if (Format != null)
             {
                 ReadDataSheets(reader, bigEndian, format);
             }
@@ -68,7 +74,8 @@ namespace EDBTools.Geo.SpreadSheet
             {
                 if (!format.Sheets.ContainsKey(i))
                 {
-                    throw new IOException("Could not read data sheet, because the format does not specify anything for sheet with index " + i + ".");
+                    //throw new IOException("Could not read data sheet, because the format does not specify anything for sheet with index " + i + ".");
+                    continue;
                 }
 
                 //Seek to start of sheet data
@@ -77,6 +84,28 @@ namespace EDBTools.Geo.SpreadSheet
                 //Read sheet
                 DataSheets.Add(new DataSheet(reader, bigEndian, format.Sheets[i]));
             }
+        }
+
+        public override string ToString()
+        {
+            StringBuilder str = new StringBuilder();
+
+            str.AppendLine(string.Format("SpreadSheet {0:X}, {1} DataSheet", HashCode, NumDataSheets)
+                + (NumDataSheets == 1 ? "" : "s"));
+
+            if (DataSheets.Count == 0)
+            {
+                str.AppendLine("No format provided.");
+                return str.ToString();
+            }
+
+            for (int i = 0; i < DataSheets.Count; i++)
+            {
+                str.AppendLine("DataSheet " + i + ":");
+                str.AppendLine(DataSheets[i].ToString());
+            }
+
+            return str.ToString();
         }
     }
 }

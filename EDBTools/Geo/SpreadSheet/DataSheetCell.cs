@@ -119,7 +119,7 @@ namespace EDBTools.Geo.SpreadSheet
                 case "bool":
                     return GetValueBool().ToString();
                 case "float":
-                    return GetValueFloat().ToString();
+                    return GetValueFloat().ToString("0.000");
                 default:
                     return "INVALID_TYPE";
             }
