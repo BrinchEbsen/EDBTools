@@ -3,9 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using YamlDotNet.Serialization;
 
 namespace EDBTools.Geo.SpreadSheet.Serialization
 {
+    /// <summary>
+    /// Yaml-serializable object containing formatting information for a bitfield in a datasheet, with a set of definitions for each bit.
+    /// </summary>
+    [YamlSerializable]
     public class SheetBitFieldFormat
     {
         public string FieldName { get; set; }

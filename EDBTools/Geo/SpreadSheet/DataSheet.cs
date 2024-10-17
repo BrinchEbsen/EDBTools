@@ -10,15 +10,34 @@ using static EDBTools.Geo.SpreadSheet.DataSheetTypeHandler;
 
 namespace EDBTools.Geo.SpreadSheet
 {
+    /// <summary>
+    /// Holds various data in cells divided into columns and rows.
+    /// Each column is given a datatype.
+    /// </summary>
     public class DataSheet
     {
+        /// <summary>
+        /// Number of rows in this sheet.
+        /// </summary>
         public int RowCount { get; private set; }
 
+        /// <summary>
+        /// Formatting needed to read the data.
+        /// Without it, the length, types and divisions of cells in the sheet cannot be determined from the binary.
+        /// </summary>
         public DataSheetFormat Format { get; private set; }
 
-        //[row][column]
+        /// <summary>
+        /// 2D array of cells in the datasheet. Outer array is rows, inner array is columns.
+        /// Thus, to index a cell at row x and column y, you'd write Cells[x][y].
+        /// </summary>
         public DataSheetCell[][] Cells { get; private set; }
 
+        /// <summary>
+        /// Read the binary data of the datasheet starting from the current position of the <see cref="BinaryReader"/>'s stream,
+        /// and construct a new instance of this class using it.
+        /// </summary>
+        /// <exception cref="IOException"></exception>
         public DataSheet(BinaryReader reader, bool bigEndian, DataSheetFormat format)
         {
             //First element is the number of rows
@@ -64,6 +83,11 @@ namespace EDBTools.Geo.SpreadSheet
             }
         }
 
+        /// <summary>
+        /// Get a string representation of the sheet formatted to look
+        /// like a grid of cells when viewed in a monospace font.
+        /// </summary>
+        /// <returns></returns>
         public override string ToString()
         {
             //Put all string representations of the cells into a 2D array of strings

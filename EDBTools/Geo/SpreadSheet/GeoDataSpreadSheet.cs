@@ -5,22 +5,44 @@ using Extensions;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Runtime.Remoting.Messaging;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace EDBTools.Geo.SpreadSheet
 {
+    /// <summary>
+    /// A spreadsheet that contains various data contained in one or more <see cref="DataSheet"/> objects.
+    /// </summary>
     public class GeoDataSpreadSheet : BaseSpreadSheet
     {
+        /// <summary>
+        /// Base address of this spreadsheet's binary data in the file.
+        /// </summary>
         public long Address { get; private set; }
+
+        /// <summary>
+        /// Hashcode for this spreadsheet. Section HT_SpreadSheet (0x14XXXXXX).
+        /// </summary>
         public uint HashCode { get; private set; }
+
+        /// <summary>
+        /// Amount of datasheets contained in this spreadsheet.
+        /// </summary>
         public int NumDataSheets { get; private set; }
+
+        /// <summary>
+        /// Pointers to each datasheet contained in this spreadsheet.
+        /// </summary>
         public List<RelPtr> DataSheetsOffsets { get; private set; } = new List<RelPtr>();
 
+        /// <summary>
+        /// Formatting for this spreadsheet.
+        /// </summary>
         public SpreadSheetFormat Format { get; private set; }
 
+        /// <summary>
+        /// List of datasheets that could be read in this spreadsheet.
+        /// Will only contain datasheets that were defined in <see cref="Format"/>.
+        /// </summary>
         public List<DataSheet> DataSheets { get; private set; } = new List<DataSheet>();
 
         public GeoDataSpreadSheet(uint hashCode)
@@ -29,11 +51,22 @@ namespace EDBTools.Geo.SpreadSheet
             HashCode = hashCode;
         }
 
+        /// <summary>
+        /// Read the data for this spreadsheet without any formatting.
+        /// </summary>
+        /// <param name="header">GeoHeader for this spreadsheet.</param>
+        /// <returns>This object, now with its fields populated with data read from the binary.</returns>
         public GeoDataSpreadSheet ReadFromFile(BinaryReader reader, bool bigEndian, GeoSpreadSheetHeader header)
         {
             return ReadFromFile(reader, bigEndian, header, null);
         }
 
+        /// <summary>
+        /// Read the data for this spreadsheet.
+        /// </summary>
+        /// <param name="header">GeoHeader for this spreadsheet.</param>
+        /// <param name="format">Formatting information for the datasheets.</param>
+        /// <returns>This object, now with its fields populated with data read from the binary.</returns>
         public GeoDataSpreadSheet ReadFromFile(BinaryReader reader, bool bigEndian, GeoSpreadSheetHeader header, SpreadSheetFormat format)
         {
             //Check that the type matches before reading
@@ -62,19 +95,24 @@ namespace EDBTools.Geo.SpreadSheet
             //If we've got a format supplied, read the spreadsheet data
             if (Format != null)
             {
-                ReadDataSheets(reader, bigEndian, format);
+                ReadDataSheets(reader, bigEndian, Format);
             }
 
             return this;
         }
 
-        public void ReadDataSheets(BinaryReader reader, bool bigEndian, SpreadSheetFormat format)
+        /// <summary>
+        /// Read all the data for this spreadsheet's datasheets using the given formatting.
+        /// Will only read datasheets with formatting defined for it.
+        /// </summary>
+        /// <param name="format">Format for the spreadsheet.</param>
+        private void ReadDataSheets(BinaryReader reader, bool bigEndian, SpreadSheetFormat format)
         {
             for (int i = 0; i < DataSheetsOffsets.Count; i++)
             {
+                //Skip this datasheet if no formatting is defined for it
                 if (!format.Sheets.ContainsKey(i))
                 {
-                    //throw new IOException("Could not read data sheet, because the format does not specify anything for sheet with index " + i + ".");
                     continue;
                 }
 
@@ -86,6 +124,10 @@ namespace EDBTools.Geo.SpreadSheet
             }
         }
 
+        /// <summary>
+        /// Get string representations of all datasheets in this spreadsheet.
+        /// </summary>
+        /// <returns></returns>
         public override string ToString()
         {
             StringBuilder str = new StringBuilder();

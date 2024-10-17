@@ -3,6 +3,10 @@ using System.Collections.Generic;
 
 namespace EDBTools.Geo.SpreadSheet
 {
+    /// <summary>
+    /// Information about a datatype, like its string representation,
+    /// its size in bytes and the C# <see cref="System.Type"/> it should be interpreted as.
+    /// </summary>
     public struct SheetDataTypeInfo
     {
         public string Str;
@@ -12,6 +16,9 @@ namespace EDBTools.Geo.SpreadSheet
 
     public static class DataSheetTypeHandler
     {
+        /// <summary>
+        /// The type of a segment of data in a <see cref="DataSheet"/>
+        /// </summary>
         public enum SheetDataType
         {
             None = 0,
@@ -29,6 +36,9 @@ namespace EDBTools.Geo.SpreadSheet
             BITFIELD_U32
         }
 
+        /// <summary>
+        /// Holds information about each datatype.
+        /// </summary>
         public static readonly Dictionary<SheetDataType, SheetDataTypeInfo> DATATYPES = new Dictionary<SheetDataType, SheetDataTypeInfo>
         {
             { SheetDataType.U8,           new SheetDataTypeInfo() { Str = "u8",           Size = 1, Type = typeof(byte)   } },
@@ -45,6 +55,11 @@ namespace EDBTools.Geo.SpreadSheet
             { SheetDataType.BITFIELD_U32, new SheetDataTypeInfo() { Str = "bitfield_u32", Size = 4, Type = typeof(uint)   } },
         };
 
+        /// <summary>
+        /// Find the sheet datatype that matches the given string representation. Null if none exist.
+        /// </summary>
+        /// <param name="str"></param>
+        /// <returns></returns>
         public static SheetDataType? GetDataType(string str)
         {
             foreach (var type in DATATYPES)
