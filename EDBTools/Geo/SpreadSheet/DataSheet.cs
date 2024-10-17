@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static EDBTools.Geo.SpreadSheet.DataSheetTypeHandler;
 
 namespace EDBTools.Geo.SpreadSheet
 {
@@ -40,7 +41,13 @@ namespace EDBTools.Geo.SpreadSheet
                 int j = 0; //Column index
                 foreach (DataSheetColumnFormat column in Format.Columns)
                 {
-                    Cells[i][j] = new DataSheetCell(reader, bigEndian, column.Type);
+                    SheetDataType? type = DataSheetTypeHandler.GetDataType(column.Type);
+                    if (type == null)
+                    {
+                        throw new IOException("Unrecognized datatype for datasheet column: " + column.Type);
+                    }
+
+                    Cells[i][j] = new DataSheetCell(reader, bigEndian, type.Value);
                     j++;
                 }
 

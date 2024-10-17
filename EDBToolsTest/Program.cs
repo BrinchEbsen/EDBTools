@@ -6,7 +6,39 @@ namespace EDBToolsTest
 {
     internal static class Program
     {
+        static string yamlDir = "../../../spreadsheets.yml";
+
         static void Main(string[] args)
+        {
+            if (!File.Exists(yamlDir)) { return; }
+
+            string spreadSheetYaml = File.ReadAllText(yamlDir);
+            SpreadSheetCollectionFormat format = SpreadSheetYamlParser.YamlToFormat(spreadSheetYaml);
+
+            Console.Write("GeoFile: ");
+            string? line = Console.ReadLine();
+            if (line == null) { return; }
+
+            if (Path.Exists(line))
+            {
+                using (BinaryReader reader = new(File.OpenRead(line)))
+                {
+                    GeoFile geoFile = new(reader);
+                    Console.WriteLine(geoFile.ToString());
+
+                    geoFile.ReadSpreadSheets(reader, geoFile.BigEndian, format);
+
+                    foreach(BaseSpreadSheet spreadSheet in geoFile.SpreadSheets)
+                    {
+                        Console.WriteLine(spreadSheet.ToString());
+                    }
+                }
+            }
+
+            Console.ReadLine();
+        }
+
+        public static void TestYamlGeneration()
         {
             SpreadSheetCollectionFormat generateFormat = new()
             {
@@ -145,31 +177,6 @@ namespace EDBToolsTest
                 }
             };
             Console.WriteLine(SpreadSheetYamlParser.FormatToYaml(generateFormat));
-
-            Console.Write("SpreadSheet YAML: ");
-            string spreadSheetYaml = File.ReadAllText(Console.ReadLine());
-            SpreadSheetCollectionFormat format = SpreadSheetYamlParser.YamlToFormat(spreadSheetYaml);
-
-            Console.Write("GeoFile: ");
-            string? line = Console.ReadLine();
-            if (line == null) { return; }
-
-            if (Path.Exists(line))
-            {
-                using (BinaryReader reader = new(File.OpenRead(line)))
-                {
-                    GeoFile geoFile = new(reader);
-                    geoFile.ReadSpreadSheets(reader, geoFile.BigEndian, format);
-                    Console.WriteLine(geoFile.ToString());
-
-                    foreach(BaseSpreadSheet spreadSheet in geoFile.SpreadSheets)
-                    {
-                        Console.WriteLine(spreadSheet.ToString());
-                    }
-                }
-            }
-
-            Console.ReadLine();
         }
     }
 }

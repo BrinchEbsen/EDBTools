@@ -1,7 +1,7 @@
 geo_files:
-  0x01000050:
+  0x01000050: # HT_File_GameInfo
     spread_sheets:
-      0x14000005:
+      0x14000005: # HT_SpreadSheet_Panel
         sheets:
           0:
             row_size: 64
@@ -39,7 +39,7 @@ geo_files:
             - name: col16
               type: s32
             bit_fields: []
-      0x14000011:
+      0x14000011: # HT_SpreadSheet_ToDo
         sheets:
           0: &todo_table
             row_size: 28
@@ -77,7 +77,7 @@ geo_files:
           15: *todo_table
           16: *todo_table
           17: *todo_table
-      0x14000020:
+      0x14000020: # HT_SpreadSheet_GUI_Shop
         sheets:
           0:
             row_size: 32
@@ -96,11 +96,22 @@ geo_files:
               type: s16
             - name: unk0
               type: bitfield_u32
-            - name: unk1
+            - name: AvailableFlags
               type: bitfield_u32
             - name: unk2
               type: bitfield_u32
-      0x14000028:
+            bit_fields:
+            - field_name: AvailableFlags
+              bits:
+              - num:  5
+                name: HasIceBreath
+              - num:  6
+                name: HasElectricBreath
+              - num:  7
+                name: HasWaterBreath
+              - num:  14
+                name: BoughtLockPick
+      0x14000028: # HT_SpreadSheet_GameInfo
         sheets:
           0:
             row_size: 8

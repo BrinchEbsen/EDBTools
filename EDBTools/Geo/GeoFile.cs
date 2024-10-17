@@ -199,9 +199,13 @@ namespace EDBTools.Geo
                 {
                     //Assign format for this sheet if it exists
                     SpreadSheetFormat sheetFormat = null;
-                    if (format.SpreadSheets.ContainsKey(header.HashCode))
+
+                    if (format != null)
                     {
-                        sheetFormat = format.SpreadSheets[header.HashCode];
+                        if (format.SpreadSheets.ContainsKey(header.HashCode))
+                        {
+                            sheetFormat = format.SpreadSheets[header.HashCode];
+                        }
                     }
 
                     GeoDataSpreadSheet sheet = new GeoDataSpreadSheet(header.HashCode);
