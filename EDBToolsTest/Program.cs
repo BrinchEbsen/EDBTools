@@ -30,7 +30,16 @@ namespace EDBToolsTest
 
                     foreach(BaseSpreadSheet spreadSheet in geoFile.SpreadSheets)
                     {
-                        Console.WriteLine(spreadSheet.ToString());
+                        if (spreadSheet.Type == SpreadSheetTypes.SHEET_TYPE_DATA)
+                        {
+                            Console.WriteLine(spreadSheet.ToString());
+                        } else
+                        {
+                            if (spreadSheet is GeoTextSpreadSheet textSheet)
+                            {
+                                Console.WriteLine(textSheet.TextData[0].ToString());
+                            }
+                        }
                     }
                 }
             }

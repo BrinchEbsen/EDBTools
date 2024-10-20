@@ -219,7 +219,7 @@ namespace EDBTools
             sb.AppendLine(string.Format("HashCode: 0x{0:X}", HashCode));
             sb.AppendLine("Version: " + Version);
             sb.AppendLine(string.Format("Flags: 0x{0:X}", Flags));
-            sb.AppendLine("Timestamp: " + GetDateTimeStamp().ToString() ?? "None");
+            sb.AppendLine("Timestamp: " + GetDateTimeStamp().ToString());
             sb.AppendLine("Filesize: " + FileSize + " bytes");
             sb.AppendLine("Base filesize: " + BaseFileSize + " bytes");
             sb.AppendLine("Debug section offset: " + DebugSectionOffset);

@@ -124,9 +124,10 @@ namespace EDBTools.Geo
                                       " - Marker value read neither \"GEOM\" or \"MOEG\".");
             BigEndian = endian.Value;
 
-            //Get platform
+            //Read header and get platform
 
             GeoHeader = new GeoHeader(reader, BigEndian);
+
             GamePlatform? platform = GeoHeader.TestPlatform();
             if (!platform.HasValue)
                 throw new IOException("Indeterminate game platform for the GeoFile supplied to the reader.");
@@ -195,25 +196,35 @@ namespace EDBTools.Geo
 
             foreach(var header in SpreadSheetHeaders)
             {
-                if (header.Type == SpreadSheetTypes.SHEET_TYPE_DATA)
+                switch (header.Type)
                 {
-                    //Assign format for this sheet if it exists
-                    SpreadSheetFormat sheetFormat = null;
-
-                    if (format != null)
+                    case SpreadSheetTypes.SHEET_TYPE_TEXT:
                     {
-                        if (format.SpreadSheets.ContainsKey(header.HashCode))
-                        {
-                            sheetFormat = format.SpreadSheets[header.HashCode];
-                        }
+                        GeoTextSpreadSheet sheet = new GeoTextSpreadSheet(header.HashCode);
+                        sheet.ReadFromFile(reader, bigEndian, header, SectionHeaders);
+                        SpreadSheets.Add(sheet);
                     }
+                    break;
+                    case SpreadSheetTypes.SHEET_TYPE_DATA:
+                    {
+                        SpreadSheetFormat sheetFormat = null;
 
-                    GeoDataSpreadSheet sheet = new GeoDataSpreadSheet(header.HashCode);
-                    sheet.ReadFromFile(reader, bigEndian, header, sheetFormat);
-                    SpreadSheets.Add(sheet);
+                        //Assign format for this sheet if it exists
+                        if (format != null)
+                        {
+                            if (format.SpreadSheets.ContainsKey(header.HashCode))
+                            {
+                                sheetFormat = format.SpreadSheets[header.HashCode];
+                            }
+                        }
+
+                        GeoDataSpreadSheet sheet = new GeoDataSpreadSheet(header.HashCode);
+                        sheet.ReadFromFile(reader, bigEndian, header, sheetFormat);
+                        SpreadSheets.Add(sheet);
+                    }
+                    break;
                 }
             }
-
 
             return SpreadSheets;
         }

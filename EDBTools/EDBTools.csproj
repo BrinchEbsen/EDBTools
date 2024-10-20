@@ -65,20 +65,22 @@
     <Compile Include="Geo\Headers\GeoSectionHeader.cs" />
     <Compile Include="Geo\Headers\RefPointerHeader.cs" />
     <Compile Include="Geo\SpreadSheet\BaseSpreadSheet.cs" />
-    <Compile Include="Geo\SpreadSheet\DataSheet.cs" />
-    <Compile Include="Geo\SpreadSheet\DataSheetCell.cs" />
-    <Compile Include="Geo\SpreadSheet\GeoDataSpreadSheet.cs" />
+    <Compile Include="Geo\SpreadSheet\Data\DataSheet.cs" />
+    <Compile Include="Geo\SpreadSheet\Data\DataSheetCell.cs" />
+    <Compile Include="Geo\SpreadSheet\Data\GeoDataSpreadSheet.cs" />
+    <Compile Include="Geo\SpreadSheet\Text\GeoTextSpreadSheet.cs" />
     <Compile Include="Geo\SpreadSheet\Serialization\DataSheetBitColumnFormat.cs" />
     <Compile Include="Geo\SpreadSheet\Serialization\DataSheetColumnFormat.cs" />
     <Compile Include="Geo\SpreadSheet\Serialization\DataSheetFormat.cs" />
     <Compile Include="Geo\SpreadSheet\Serialization\SheetBitFieldFormat.cs" />
     <Compile Include="Geo\SpreadSheet\Serialization\SpreadSheetCollectionFormat.cs" />
     <Compile Include="Geo\SpreadSheet\Serialization\SpreadSheetGeoFileFormat.cs" />
-    <Compile Include="Geo\SpreadSheet\DataSheetTypeHandler.cs" />
+    <Compile Include="Geo\SpreadSheet\Data\DataSheetTypeHandler.cs" />
     <Compile Include="Geo\SpreadSheet\Serialization\SpreadSheetFormat.cs" />
-    <Compile Include="Geo\SpreadSheet\SpreadSheetTypes.cs" />
+    <Compile Include="Geo\SpreadSheet\Data\SpreadSheetTypes.cs" />
     <Compile Include="Geo\SpreadSheet\SpreadSheetYamlParser.cs" />
     <Compile Include="Geo\SpreadSheet\SpreadSheetYamlParser_old.cs" />
+    <Compile Include="Geo\SpreadSheet\Text\TextSheetData.cs" />
     <Compile Include="HashCodes\Spyro\HashCodes.cs" />
     <Compile Include="HashCodes\Spyro\Sound.cs" />
   </ItemGroup>

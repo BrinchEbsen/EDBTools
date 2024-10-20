@@ -10,7 +10,7 @@
         /// </summary>
         SHEET_TYPE_TEXT = 1,
         /// <summary>
-        /// A spreadsheet with user-defined data, which can contain multiple data sheets.
+        /// A spreadsheet with user-defined data sectioned into multiple data sheets.
         /// </summary>
         SHEET_TYPE_DATA = 2
     }

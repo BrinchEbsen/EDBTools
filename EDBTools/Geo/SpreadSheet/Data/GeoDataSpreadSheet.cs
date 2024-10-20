@@ -15,16 +15,6 @@ namespace EDBTools.Geo.SpreadSheet
     public class GeoDataSpreadSheet : BaseSpreadSheet
     {
         /// <summary>
-        /// Base address of this spreadsheet's binary data in the file.
-        /// </summary>
-        public long Address { get; private set; }
-
-        /// <summary>
-        /// Hashcode for this spreadsheet. Section HT_SpreadSheet (0x14XXXXXX).
-        /// </summary>
-        public uint HashCode { get; private set; }
-
-        /// <summary>
         /// Amount of datasheets contained in this spreadsheet.
         /// </summary>
         public int NumDataSheets { get; private set; }

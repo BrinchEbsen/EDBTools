@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.IO;
 
 namespace EDBTools.Geo.Headers
 {
@@ -27,7 +22,9 @@ namespace EDBTools.Geo.Headers
         /// </summary>
         public uint HashCode { get; protected set; }
 
-        public GeoCommonHeader() { }
+        public GeoCommonHeader()
+        {
+        }
 
         /// <summary>
         /// Assigns own address to the current stream position of the given <see cref="BinaryReader"/>.
