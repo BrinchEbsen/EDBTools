@@ -40,12 +40,15 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Common\EXVar32.cs" />
+    <Compile Include="Common\EXVector3.cs" />
     <Compile Include="Common\GamePlatform.cs" />
+    <Compile Include="Common\RGBA.cs" />
     <Compile Include="Geo\GeoRelArray.cs" />
     <Compile Include="Common\RelPtr.cs" />
     <Compile Include="Extensions\BinaryReaderExtensions.cs" />
     <Compile Include="Extensions\BinaryWriterExtensions.cs" />
-    <Compile Include="Geo\GeoCommonArray.cs" />
+    <Compile Include="Geo\GeoArray.cs" />
     <Compile Include="Geo\GeoFile.cs" />
     <Compile Include="Geo\GeoHeader.cs" />
     <Compile Include="Geo\Headers\GeoAnimSetHeader.cs" />
@@ -64,6 +67,13 @@
     <Compile Include="Geo\Headers\GeoEntityHeader.cs" />
     <Compile Include="Geo\Headers\GeoSectionHeader.cs" />
     <Compile Include="Geo\Headers\RefPointerHeader.cs" />
+    <Compile Include="Geo\Map\GeoMap.cs" />
+    <Compile Include="Geo\Map\MapHeader.cs" />
+    <Compile Include="Geo\Map\Triggers\GeoMapTriggerHeader.cs" />
+    <Compile Include="Geo\Map\Triggers\GeoMapTriggers.cs" />
+    <Compile Include="Geo\Map\Triggers\GeoTrigger.cs" />
+    <Compile Include="Geo\Map\Triggers\GeoTriggerScript.cs" />
+    <Compile Include="Geo\Map\Triggers\GeoTriggerType.cs" />
     <Compile Include="Geo\SpreadSheet\BaseSpreadSheet.cs" />
     <Compile Include="Geo\SpreadSheet\Data\DataSheet.cs" />
     <Compile Include="Geo\SpreadSheet\Data\DataSheetCell.cs" />
@@ -79,12 +89,12 @@
     <Compile Include="Geo\SpreadSheet\Serialization\SpreadSheetFormat.cs" />
     <Compile Include="Geo\SpreadSheet\Data\SpreadSheetTypes.cs" />
     <Compile Include="Geo\SpreadSheet\SpreadSheetYamlParser.cs" />
-    <Compile Include="Geo\SpreadSheet\SpreadSheetYamlParser_old.cs" />
     <Compile Include="Geo\SpreadSheet\Text\TextSheetData.cs" />
     <Compile Include="HashCodes\Spyro\HashCodes.cs" />
     <Compile Include="HashCodes\Spyro\Sound.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Reference Include="System.Drawing" />
     <Reference Include="YamlDotNet, Version=16.0.0.0, Culture=neutral, PublicKeyToken=ec19458f3c15af5e, processorArchitecture=MSIL">
       <HintPath>..\packages\YamlDotNet.16.1.3\lib\net47\YamlDotNet.dll</HintPath>
     </Reference>

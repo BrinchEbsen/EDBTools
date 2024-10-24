@@ -1,14 +1,15 @@
 ﻿using Common;
 using EDBTools.Geo.Headers;
+using EDBTools.Geo.Map;
 using EDBTools.Geo.SpreadSheet;
+using EDBTools.Geo.SpreadSheet.Data;
 using EDBTools.Geo.SpreadSheet.Serialization;
+using EDBTools.Geo.SpreadSheet.Text;
 using Extensions;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace EDBTools.Geo
 {
@@ -108,6 +109,8 @@ namespace EDBTools.Geo
 
         /* DATA */
 
+        public List<GeoMap> Maps { get; private set; }
+
         public List<BaseSpreadSheet> SpreadSheets { get; private set; }
 
 
@@ -172,6 +175,20 @@ namespace EDBTools.Geo
 
         /* METHODS */
 
+        public List<GeoMap> ReadMaps(BinaryReader reader, bool bigEndian)
+        {
+            Maps = new List<GeoMap>();
+            if (MapHeaders.Count == 0) { return Maps; }
+
+            foreach(var header in MapHeaders)
+            {
+                GeoMap map = new GeoMap();
+                Maps.Add(map.ReadFromStream(reader, bigEndian, header));
+            }
+
+            return Maps;
+        }
+
         public List<BaseSpreadSheet> ReadSpreadSheets(BinaryReader reader, bool bigEndian)
         {
             return ReadSpreadSheets(reader, bigEndian, (SpreadSheetGeoFileFormat)null);
@@ -201,7 +218,7 @@ namespace EDBTools.Geo
                     case SpreadSheetTypes.SHEET_TYPE_TEXT:
                     {
                         GeoTextSpreadSheet sheet = new GeoTextSpreadSheet(header.HashCode);
-                        sheet.ReadFromFile(reader, bigEndian, header, SectionHeaders);
+                        sheet.ReadFromStream(reader, bigEndian, header, SectionHeaders);
                         SpreadSheets.Add(sheet);
                     }
                     break;
@@ -219,7 +236,7 @@ namespace EDBTools.Geo
                         }
 
                         GeoDataSpreadSheet sheet = new GeoDataSpreadSheet(header.HashCode);
-                        sheet.ReadFromFile(reader, bigEndian, header, sheetFormat);
+                        sheet.ReadFromStream(reader, bigEndian, header, sheetFormat);
                         SpreadSheets.Add(sheet);
                     }
                     break;
@@ -271,13 +288,13 @@ namespace EDBTools.Geo
         }
 
         /// <summary>
-        /// Take a list and add the HashCodes prefixed to the data array header referenced by the given <see cref="GeoCommonArray"/>.
-        /// Will only add hashcodes if <see cref="GeoCommonArray.HashSize"/> is negative.
+        /// Take a list and add the HashCodes prefixed to the data array header referenced by the given <see cref="GeoArray"/>.
+        /// Will only add hashcodes if <see cref="GeoArray.HashSize"/> is negative.
         /// </summary>
         /// <param name="list">List to populate with HashCodes.</param>
         /// <param name="array">Data array descriptor.</param>
         /// <returns>The input list, now with added HashCodes (if any).</returns>
-        private List<uint> PopulateHeaderHashCodeList(List<uint> list, GeoCommonArray array, BinaryReader reader, bool bigEndian)
+        private List<uint> PopulateHeaderHashCodeList(List<uint> list, GeoArray array, BinaryReader reader, bool bigEndian)
         {
             if (array.HashSize >= 0) return list;
 
@@ -293,15 +310,15 @@ namespace EDBTools.Geo
         }
 
         /// <summary>
-        /// Take a list and add the data array headers referenced by the given <see cref="GeoCommonArray"/>.
+        /// Take a list and add the data array headers referenced by the given <see cref="GeoArray"/>.
         /// </summary>
-        /// <typeparam name="T">A header which derives from <see cref="GeoCommonArray"/>
+        /// <typeparam name="T">A header which derives from <see cref="GeoArray"/>
         /// and contains a parameterless constructor.</typeparam>
         /// <param name="list">List to populate with headers.</param>
         /// <param name="array">Data array descriptor.</param>
         /// <returns>The input list, now with added headers (if any).</returns>
         private List<T> PopulateHeaderList<T>
-            (List<T> list, GeoCommonArray array, BinaryReader reader, bool bigEndian) 
+            (List<T> list, GeoArray array, BinaryReader reader, bool bigEndian) 
             where T : GeoCommonHeader, new()
         {
             list.Clear();

@@ -1,14 +1,11 @@
 ﻿using EDBTools.Geo.SpreadSheet.Serialization;
 using Extensions;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
-using static EDBTools.Geo.SpreadSheet.DataSheetTypeHandler;
+using static EDBTools.Geo.SpreadSheet.Data.DataSheetTypeHandler;
 
-namespace EDBTools.Geo.SpreadSheet
+namespace EDBTools.Geo.SpreadSheet.Data
 {
     /// <summary>
     /// Holds various data in cells divided into columns and rows.

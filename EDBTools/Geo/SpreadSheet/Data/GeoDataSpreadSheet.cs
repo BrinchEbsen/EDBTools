@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 
-namespace EDBTools.Geo.SpreadSheet
+namespace EDBTools.Geo.SpreadSheet.Data
 {
     /// <summary>
     /// A spreadsheet that contains various data contained in one or more <see cref="DataSheet"/> objects.
@@ -48,7 +48,7 @@ namespace EDBTools.Geo.SpreadSheet
         /// <returns>This object, now with its fields populated with data read from the binary.</returns>
         public GeoDataSpreadSheet ReadFromFile(BinaryReader reader, bool bigEndian, GeoSpreadSheetHeader header)
         {
-            return ReadFromFile(reader, bigEndian, header, null);
+            return ReadFromStream(reader, bigEndian, header, null);
         }
 
         /// <summary>
@@ -57,7 +57,7 @@ namespace EDBTools.Geo.SpreadSheet
         /// <param name="header">GeoHeader for this spreadsheet.</param>
         /// <param name="format">Formatting information for the datasheets.</param>
         /// <returns>This object, now with its fields populated with data read from the binary.</returns>
-        public GeoDataSpreadSheet ReadFromFile(BinaryReader reader, bool bigEndian, GeoSpreadSheetHeader header, SpreadSheetFormat format)
+        public GeoDataSpreadSheet ReadFromStream(BinaryReader reader, bool bigEndian, GeoSpreadSheetHeader header, SpreadSheetFormat format)
         {
             //Check that the type matches before reading
             if (header.Type != this.Type)

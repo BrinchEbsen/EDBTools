@@ -74,20 +74,20 @@ namespace EDBTools
 
         /* SECTION DESCRIPTORS */
 
-        public GeoCommonArray SectionList { get; private set; }
-        public GeoCommonArray RefPointerList { get; private set; }
-        public GeoCommonArray EntityList { get; private set; }
-        public GeoCommonArray AnimList { get; private set; }
-        public GeoCommonArray AnimSkinList { get; private set; }
-        public GeoCommonArray ScriptList { get; private set; }
-        public GeoCommonArray MapList { get; private set; }
-        public GeoCommonArray AnimModeList { get; private set; }
-        public GeoCommonArray AnimSetList { get; private set; }
-        public GeoCommonArray ParticleList { get; private set; }
-        public GeoCommonArray SwooshList { get; private set; }
-        public GeoCommonArray SpreadSheetList { get; private set; }
-        public GeoCommonArray FontList { get; private set; }
-        public GeoCommonArray TextureList { get; private set; }
+        public GeoArray SectionList { get; private set; }
+        public GeoArray RefPointerList { get; private set; }
+        public GeoArray EntityList { get; private set; }
+        public GeoArray AnimList { get; private set; }
+        public GeoArray AnimSkinList { get; private set; }
+        public GeoArray ScriptList { get; private set; }
+        public GeoArray MapList { get; private set; }
+        public GeoArray AnimModeList { get; private set; }
+        public GeoArray AnimSetList { get; private set; }
+        public GeoArray ParticleList { get; private set; }
+        public GeoArray SwooshList { get; private set; }
+        public GeoArray SpreadSheetList { get; private set; }
+        public GeoArray FontList { get; private set; }
+        public GeoArray TextureList { get; private set; }
         public GeoRelArray TextureUpdateList { get; private set; }
 
 
@@ -130,20 +130,20 @@ namespace EDBTools
             //Seek past runtime-only pointers.
             reader.BaseStream.Seek(4 * 6, SeekOrigin.Current);
 
-            SectionList     = new GeoCommonArray(reader, bigEndian);
-            RefPointerList  = new GeoCommonArray(reader, bigEndian);
-            EntityList      = new GeoCommonArray(reader, bigEndian);
-            AnimList        = new GeoCommonArray(reader, bigEndian);
-            AnimSkinList    = new GeoCommonArray(reader, bigEndian);
-            ScriptList      = new GeoCommonArray(reader, bigEndian);
-            MapList         = new GeoCommonArray(reader, bigEndian);
-            AnimModeList    = new GeoCommonArray(reader, bigEndian);
-            AnimSetList     = new GeoCommonArray(reader, bigEndian);
-            ParticleList    = new GeoCommonArray(reader, bigEndian);
-            SwooshList      = new GeoCommonArray(reader, bigEndian);
-            SpreadSheetList = new GeoCommonArray(reader, bigEndian);
-            FontList        = new GeoCommonArray(reader, bigEndian);
-            TextureList     = new GeoCommonArray(reader, bigEndian);
+            SectionList     = new GeoArray(reader, bigEndian);
+            RefPointerList  = new GeoArray(reader, bigEndian);
+            EntityList      = new GeoArray(reader, bigEndian);
+            AnimList        = new GeoArray(reader, bigEndian);
+            AnimSkinList    = new GeoArray(reader, bigEndian);
+            ScriptList      = new GeoArray(reader, bigEndian);
+            MapList         = new GeoArray(reader, bigEndian);
+            AnimModeList    = new GeoArray(reader, bigEndian);
+            AnimSetList     = new GeoArray(reader, bigEndian);
+            ParticleList    = new GeoArray(reader, bigEndian);
+            SwooshList      = new GeoArray(reader, bigEndian);
+            SpreadSheetList = new GeoArray(reader, bigEndian);
+            FontList        = new GeoArray(reader, bigEndian);
+            TextureList     = new GeoArray(reader, bigEndian);
 
             TextureUpdateList = new GeoRelArray(reader, bigEndian);
         }

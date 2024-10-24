@@ -1,6 +1,8 @@
 ﻿using EDBTools.Geo;
 using EDBTools.Geo.SpreadSheet;
+using EDBTools.Geo.SpreadSheet.Data;
 using EDBTools.Geo.SpreadSheet.Serialization;
+using EDBTools.Geo.SpreadSheet.Text;
 
 namespace EDBToolsTest
 {
@@ -41,6 +43,8 @@ namespace EDBToolsTest
                             }
                         }
                     }
+
+                    geoFile.ReadMaps(reader, geoFile.BigEndian);
                 }
             }
 

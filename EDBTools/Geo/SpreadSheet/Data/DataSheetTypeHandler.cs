@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace EDBTools.Geo.SpreadSheet
+namespace EDBTools.Geo.SpreadSheet.Data
 {
     /// <summary>
     /// Information about a datatype, like its string representation,

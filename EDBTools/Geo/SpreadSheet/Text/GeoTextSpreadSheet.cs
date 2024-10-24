@@ -1,13 +1,12 @@
 ﻿using EDBTools.Geo.Headers;
+using EDBTools.Geo.SpreadSheet.Data;
 using Extensions;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
-namespace EDBTools.Geo.SpreadSheet
+namespace EDBTools.Geo.SpreadSheet.Text
 {
     /// <summary>
     /// A section of a GeoFile containing text data.
@@ -47,7 +46,7 @@ namespace EDBTools.Geo.SpreadSheet
         /// </summary>
         public Dictionary<int, TextSheetData> TextData { get; private set; }
 
-        public GeoTextSpreadSheet ReadFromFile(BinaryReader reader, bool bigEndian, GeoSpreadSheetHeader header, List<GeoSectionHeader> sectionList)
+        public GeoTextSpreadSheet ReadFromStream(BinaryReader reader, bool bigEndian, GeoSpreadSheetHeader header, List<GeoSectionHeader> sectionList)
         {
             //Check that the type matches before reading
             if (header.Type != this.Type)

@@ -1,4 +1,4 @@
-﻿using EDBTools.Geo.SpreadSheet;
+﻿using EDBTools.Geo.SpreadSheet.Data;
 using Extensions;
 using System;
 using System.IO;

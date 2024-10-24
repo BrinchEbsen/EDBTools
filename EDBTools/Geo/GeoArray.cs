@@ -14,7 +14,7 @@ namespace EDBTools.Geo
     /// <summary>
     /// Descriptor for an array of GeoFile data headers.
     /// </summary>
-    public class GeoCommonArray
+    public class GeoArray
     {
         public long Address { get; set; }
 
@@ -31,7 +31,7 @@ namespace EDBTools.Geo
         /// </summary>
         public RelPtr Offset { get; private set; }
 
-        public GeoCommonArray(BinaryReader reader, bool bigEndian)
+        public GeoArray(BinaryReader reader, bool bigEndian)
         {
             Address = reader.BaseStream.Position;
             ArraySize = reader.ReadInt16(bigEndian);

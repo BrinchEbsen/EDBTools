@@ -1,4 +1,4 @@
-﻿namespace EDBTools.Geo.SpreadSheet
+﻿namespace EDBTools.Geo.SpreadSheet.Data
 {
     /// <summary>
     /// The type of a spreadsheet.

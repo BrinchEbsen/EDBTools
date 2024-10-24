@@ -1,11 +1,10 @@
 ﻿using EDBTools.Common;
 using Extensions;
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
 
-namespace EDBTools.Geo.SpreadSheet
+namespace EDBTools.Geo.SpreadSheet.Text
 {
     /// <summary>
     /// Describes the position of a text string and its related data.
@@ -102,6 +101,11 @@ namespace EDBTools.Geo.SpreadSheet
 
         public override string ToString()
         {
+            if ((NumTextItems != Descriptors?.Count) || (NumTextItems != Items?.Count))
+            {
+                return "Text data invalid: Text item count differs from amount specified in section.";
+            }
+
             StringBuilder sb = new StringBuilder();
 
             sb.AppendLine("Hashcode | User Data            | Text");

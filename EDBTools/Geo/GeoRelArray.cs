@@ -15,6 +15,7 @@ namespace EDBTools.Geo
         /// Size of the referenced array.
         /// </summary>
         public int Size { get; private set; }
+
         /// <summary>
         /// Relative pointer to the data contained in the referenced array.
         /// </summary>

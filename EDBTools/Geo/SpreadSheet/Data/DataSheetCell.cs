@@ -4,9 +4,9 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using static EDBTools.Geo.SpreadSheet.DataSheetTypeHandler;
+using static EDBTools.Geo.SpreadSheet.Data.DataSheetTypeHandler;
 
-namespace EDBTools.Geo.SpreadSheet
+namespace EDBTools.Geo.SpreadSheet.Data
 {
     /// <summary>
     /// A cell in a <see cref="DataSheet"/>, which has a specific type that determines how its binary data should be interpreted.
