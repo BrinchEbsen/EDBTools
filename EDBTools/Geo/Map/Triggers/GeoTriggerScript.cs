@@ -22,6 +22,7 @@ namespace EDBTools.Geo.Map.Triggers
         public byte[] VTable { get; private set; }
         public List<Procedure> Procedures { get; private set; }
         public List<CodeLine> Code { get; private set; }
+        public List<uint[]> CodeRaw { get; private set; }
 
         public GeoTriggerScript(BinaryReader reader, bool bigEndian)
         {
@@ -63,6 +64,7 @@ namespace EDBTools.Geo.Map.Triggers
             }
 
             Code = new List<CodeLine>(NumLines);
+            CodeRaw = new List<uint[]>();
             for (int i = 0; i < NumLines; i++)
             {
                 CodeLine line = new CodeLine();
@@ -74,6 +76,16 @@ namespace EDBTools.Geo.Map.Triggers
                 line.Data4 = reader.ReadInt32(bigEndian);
 
                 Code.Add(line);
+
+                reader.BaseStream.Seek(-8, SeekOrigin.Current);
+
+                uint[] raw =
+                {
+                    reader.ReadUInt32(bigEndian),
+                    reader.ReadUInt32(bigEndian)
+                };
+
+                CodeRaw.Add(raw);
             }
         }
     }

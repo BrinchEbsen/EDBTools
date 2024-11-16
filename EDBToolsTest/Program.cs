@@ -8,7 +8,7 @@ namespace EDBToolsTest
 {
     internal static class Program
     {
-        static string yamlDir = "../../../spreadsheets.yml";
+        static readonly string yamlDir = "../../../spreadsheets.yml";
 
         static void Main(string[] args)
         {

@@ -17,6 +17,7 @@ namespace EDBTools.Geo.Map.Triggers
         public const uint TRIGFLAGS_GFXHASH     =  0x1000000; //Bit 24
         public const uint TRIGFLAGS_GEOHASH     =  0x2000000; //Bit 25
         public const uint TRIGFLAGS_SCRIPT      =  0x4000000; //Bit 26
+        public const uint TRIGFLAGS_COLLISION   =  0x8000000; //Bit 27
         public const uint TRIGFLAGS_TINT        = 0x10000000; //Bit 28
 
         public long Address { get; private set; }
@@ -34,6 +35,7 @@ namespace EDBTools.Geo.Map.Triggers
         /// <para>Bit 24 determines if the trigger has a GFX hashcode reference.</para>
         /// <para>Bit 25 determines if the trigger has a Geo hashcode reference.</para>
         /// <para>Bit 26 determines if the trigger has a gamescript attached.</para>
+        /// <para>Bit 27 determines if the trigger has collision (unused).</para>
         /// <para>Bit 28 determines if the trigger has a tint color.</para>
         /// </summary>
         public uint TrigFlags { get; private set; }
@@ -51,7 +53,6 @@ namespace EDBTools.Geo.Map.Triggers
         public uint GfxHashRef { get; private set; }
 
         public uint GeoFileHashRef { get; private set; }
-
 
         public RGBA Tint { get; private set; }
 
@@ -99,6 +100,12 @@ namespace EDBTools.Geo.Map.Triggers
             if (HasScript())
             {
                 ScriptIndex = reader.ReadUInt32(bigEndian);
+            }
+
+            if (HasCollision())
+            {
+                //Collision is ignored in the game code
+                reader.BaseStream.Seek(4, SeekOrigin.Current);
             }
 
             if (HasTint())
@@ -200,6 +207,11 @@ namespace EDBTools.Geo.Map.Triggers
         public bool HasScript()
         {
             return (TrigFlags & TRIGFLAGS_SCRIPT) != 0;
+        }
+
+        public bool HasCollision()
+        {
+            return (TrigFlags & TRIGFLAGS_COLLISION) != 0;
         }
 
         public bool HasTint()
