@@ -40,6 +40,17 @@ namespace EDBTools.Common
         }
 
         /// <summary>
+        /// Whether this pointer is null.
+        /// </summary>
+        public bool IsNull
+        {
+            get
+            {
+                return Offset == 0;
+            }
+        }
+
+        /// <summary>
         /// Initialize a relative pointer with the given <paramref name="address"/> and <paramref name="offset"/>.
         /// </summary>
         public RelPtr(long address, int offset)

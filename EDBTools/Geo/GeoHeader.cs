@@ -203,7 +203,7 @@ namespace EDBTools
         /// <summary>
         /// Convert the 4-byte unix timestamp in this GeoHeader to a <see cref="DateTime"/> object.
         /// </summary>
-        /// <returns>The unix timestamps of this GeoHeader converted to a <see cref="DateTime"/> object.</returns>
+        /// <returns>The unix timestamp of this GeoHeader converted to a <see cref="DateTime"/> object.</returns>
         public DateTime? GetDateTimeStamp()
         {
             if (TimeStamp == 0) return null;

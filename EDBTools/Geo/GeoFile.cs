@@ -1,4 +1,5 @@
 ﻿using Common;
+using EDBTools.Geo.Font;
 using EDBTools.Geo.Headers;
 using EDBTools.Geo.Map;
 using EDBTools.Geo.SpreadSheet;
@@ -113,6 +114,8 @@ namespace EDBTools.Geo
 
         public List<BaseSpreadSheet> SpreadSheets { get; private set; }
 
+        public List<GeoFont> Fonts { get; private set; }
+
 
 
         /* CONSTRUCTORS */
@@ -177,7 +180,8 @@ namespace EDBTools.Geo
 
         public List<GeoMap> ReadMaps(BinaryReader reader, bool bigEndian)
         {
-            Maps = new List<GeoMap>();
+            Maps = new List<GeoMap>(MapHeaders.Count);
+
             if (MapHeaders.Count == 0) { return Maps; }
 
             foreach(var header in MapHeaders)
@@ -207,7 +211,7 @@ namespace EDBTools.Geo
 
         public List<BaseSpreadSheet> ReadSpreadSheets(BinaryReader reader, bool bigEndian, SpreadSheetGeoFileFormat format)
         {
-            SpreadSheets = new List<BaseSpreadSheet> ();
+            SpreadSheets = new List<BaseSpreadSheet> (SpreadSheetHeaders.Count);
 
             if (SpreadSheetHeaders.Count == 0) { return SpreadSheets; }
 
@@ -244,6 +248,21 @@ namespace EDBTools.Geo
             }
 
             return SpreadSheets;
+        }
+
+        public List<GeoFont> ReadFonts(BinaryReader reader, bool bigEndian)
+        {
+            Fonts = new List<GeoFont>(FontHeaders.Count);
+
+            if (FontHeaders.Count == 0) { return Fonts; }
+
+            foreach (var header in FontHeaders)
+            {
+                GeoFont font = new GeoFont();
+                Fonts.Add(font.ReadFromStream(reader, bigEndian, header));
+            }
+
+            return Fonts;
         }
 
         /// <summary>

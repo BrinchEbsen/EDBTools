@@ -1,13 +1,6 @@
 ﻿using EDBTools.Common;
-using EDBTools.Geo.Headers;
-using EDBTools.HashCodes;
 using Extensions;
-using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace EDBTools.Geo
 {

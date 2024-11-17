@@ -40,10 +40,12 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Common\EXBoundsSphere.cs" />
     <Compile Include="Common\EXVar32.cs" />
     <Compile Include="Common\EXVector3.cs" />
     <Compile Include="Common\GamePlatform.cs" />
     <Compile Include="Common\RGBA.cs" />
+    <Compile Include="Geo\Font\GeoFont.cs" />
     <Compile Include="Geo\GeoRelArray.cs" />
     <Compile Include="Common\RelPtr.cs" />
     <Compile Include="Extensions\BinaryReaderExtensions.cs" />
@@ -99,5 +101,6 @@
       <HintPath>..\packages\YamlDotNet.16.1.3\lib\net47\YamlDotNet.dll</HintPath>
     </Reference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

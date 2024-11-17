@@ -35,6 +35,13 @@ namespace EDBTools.Common
             Z = z;
         }
 
+        public EXVector3(EXVector3 o)
+        {
+            this.X = o.X;
+            this.Y = o.Y;
+            this.Z = o.Z;
+        }
+
         public EXVector3(BinaryReader reader, bool bigEndian)
         {
             ReadFromStream(reader, bigEndian);

@@ -45,6 +45,13 @@ namespace EDBToolsTest
                     }
 
                     geoFile.ReadMaps(reader, geoFile.BigEndian);
+
+                    geoFile.ReadFonts(reader, geoFile.BigEndian);
+
+                    foreach(var font in geoFile.Fonts)
+                    {
+                        Console.WriteLine(font);
+                    }
                 }
             }
 
